@@ -66,14 +66,25 @@ def _mix(c, t, k):
     return "#" + "".join(f"{round(x + (y - x) * k):02x}" for x, y in zip(a, b))
 
 
+def _ink(c):
+    return "#111111" if _lum(c) > 150 else "#ffffff"
+
+
 def team_theme(ab):
+    """Every team always gets the same scheme, built from its two brand colors:
+    tc1 = the darker color (header, hero, stat tiles), tc2 = the other one
+    (stripes, buttons, accents on dark), tcl = a version readable on light
+    backgrounds (links, headings), sig = the signature color used for tints."""
     p, s2 = TEAM_THEMES[ab]
     dark, light = (p, s2) if _lum(p) <= _lum(s2) else (s2, p)
-    accent = light if _lum(light) < 215 else dark
-    if _lum(dark) > 110:  # e.g. Vegas gold: deepen it so white text stays readable
-        dark = _mix(dark, "#000000", 0.55)
-    link = dark if _lum(dark) > 25 else _mix(accent, "#000000", 0.35) if _lum(accent) > 120 else accent
-    return {"navy": dark, "goal": accent, "ice": link}
+    if 40 <= _lum(light) <= 140:
+        link = light
+    elif _lum(dark) >= 25:
+        link = dark
+    else:
+        link = _mix(light, "#000000", 0.42)
+    sig = TEAM_COLORS.get(ab, light)
+    return {"tc1": dark, "tc1i": _ink(dark), "tc2": light, "tc2i": _ink(light), "tcl": link, "sig": sig}
 
 
 TEAM_COLORS = {
@@ -166,10 +177,46 @@ def figure(key, cls="photo", eager=False):
 
 # ---------- teams ----------
 def team_badge(ab):
-    c = TEAM_COLORS.get(ab, "#555555")
-    r, g, b = (int(c[i:i + 2], 16) for i in (1, 3, 5))
-    ink = "#0b1d33" if (0.299 * r + 0.587 * g + 0.114 * b) > 150 else "#ffffff"
-    return f'<span class="badge" style="background:{c};color:{ink}">{esc(ab)}</span>'
+    if ab not in TEAM_THEMES:
+        return f'<span class="badge" style="background:#555;color:#fff">{esc(ab)}</span>'
+    t = team_theme(ab)
+    ink = t["tc2"] if abs(_lum(t["tc2"]) - _lum(t["tc1"])) > 90 else t["tc1i"]
+    return (f'<span class="badge" style="background:{t["tc1"]};color:{ink};box-shadow:inset 0 -3px 0 {t["tc2"]}">'
+            f'{esc(ab)}</span>')
+
+
+def team_photos():
+    """Photo for each team's hero (data/photos.json keys team-XXX), plus
+    general game-action photos used for teams without one of their own."""
+    def entry(k):
+        p = PHOTOS[k]
+        author = re.sub(r"\s+from .*$", "", p.get("author", "")) or "Wikimedia Commons"
+        return {"src": f"/img/{k}.jpg", "sm": f"/img/{k}-sm.jpg", "alt": p.get("alt", ""),
+                "credit": f'{author}, {p.get("license", "")}'}
+    teams = {k[5:]: entry(k) for k in PHOTOS if k.startswith("team-") and has_photo(k)}
+    action = [entry(k) for k in PHOTOS if k.startswith("action-") and has_photo(k)]
+    if not action and has_photo("olympic-hockey-2002"):
+        action = [entry("olympic-hockey-2002")]
+    return {"teams": teams, "action": action}
+
+
+def pagehead(kicker, title, lede, key=""):
+    """Colored banner in the visitor's team colors, over a hockey photo."""
+    if not has_photo(key):
+        acts = [k for k in PHOTOS if k.startswith("action-") and has_photo(k)]
+        key = acts[sum(map(ord, title)) % len(acts)] if acts else ""
+    credit = ""
+    if has_photo(key):
+        author = re.sub(r"\s+from .*$", "", PHOTOS[key].get("author", "")) or "Wikimedia Commons"
+        credit = f'<a class="credit" href="/photo-credits/">Photo: {esc(author)}, {esc(PHOTOS[key].get("license", ""))}</a>'
+    style = f' style="--hero-img:url(/img/{key}.jpg)"' if has_photo(key) else ""
+    return (f'<header class="pagehead{" has-photo" if style else ""}"{style}><div class="wrap">'
+            f'<p class="kicker">{kicker}</p><h1>{title}</h1><p class="lede">{lede}</p></div>{credit}'
+            '<div class="stripes" aria-hidden="true"></div></header>')
+
+
+def theme_vars(t):
+    return ";".join(f"--{k}:{v}" for k, v in t.items())
 
 
 def theme_script():
@@ -177,8 +224,8 @@ def theme_script():
     return ("<script>(function(){var T=" + json.dumps(themes, separators=(",", ":")) + ",t;"
             "try{t=localStorage.getItem('hnusa-team')}catch(e){}"
             "if(t&&T[t]){var r=document.documentElement,c=T[t];r.dataset.team=t;"
-            "r.style.setProperty('--navy',c.navy);r.style.setProperty('--goal',c.goal);r.style.setProperty('--ice',c.ice);}"
-            "window.HNUSA_THEMES=T;})();</script>")
+            "for(var k in c)r.style.setProperty('--'+k,c[k]);}"
+            "window.HNUSA_THEMES=T;window.HNUSA_PHOTOS=" + json.dumps(team_photos(), separators=(",", ":")) + ";})();</script>")
 
 
 def video_for_game(g):
@@ -278,9 +325,9 @@ def highlights_page():
                    for d, gs in by_day.items())
     if not days:
         days = "<p>Highlights show up here the morning after games are played.</p>"
-    return ('<section class="wrap hub"><p class="kicker">NHL</p><h1>Scores &amp; highlights</h1>'
-            '<p class="lede">Every NHL game from the past week, with the official recap, the condensed game and a clip of '
-            'every goal. Videos play on NHL.com.</p>'
+    return (pagehead("NHL", "Scores &amp; highlights", "Every NHL game from the past week, with the official recap, "
+                     "the condensed game and a clip of every goal. Videos play on NHL.com.", "action-goal")
+            + '<section class="wrap hub">'
             '<label class="onlymine"><input type="checkbox" id="onlymine"> Only show <span data-myteam-name>my team</span></label>'
             f'{sponsor_strip()}{days}{ad_slot()}'
             '<p class="note">Scores and video links come from the NHL\'s public data and refresh every morning. '
@@ -525,9 +572,8 @@ def main():
     for key, sec in SECTIONS.items():
         mine = [a for a in arts if a["section"] == key]
         panel = mammoth_panel() if key == "mammoth" else rinks_panel() if key == "rinks" else ""
-        body = (f'<section class="wrap hub"><p class="kicker">Utah</p><h1>{esc(sec["title"])}</h1>'
-                f'<p class="lede">{esc(sec["blurb"])}</p>{figure(SECTION_IMAGES.get(key, ""), "photo hub-photo", eager=True)}'
-                f'{panel}{sponsor_strip()}'
+        body = (pagehead("Utah", esc(sec["title"]), esc(sec["blurb"]), SECTION_IMAGES.get(key, ""))
+                + f'<section class="wrap hub">{panel}{sponsor_strip()}'
                 + (f'<h2>{"Reports and guides" if key == "mammoth" else "Guides"}</h2><div class="grid">'
                    + "".join(card(a) for a in mine) + "</div>" if mine else "")
                 + f"{ad_slot()}{newsletter()}</section>")
@@ -537,21 +583,31 @@ def main():
     lane = [a for a in arts if a.get("category") == "Memory lane"]
     guides = [a for a in arts if a.get("category") not in ("Weekly report", "Memory lane")]
     tiles = "".join(
-        f'<a class="tile s-{k}" href="/{SECTIONS[k]["path"]}/"><b>{SECTIONS[k]["title"]}</b><span>{SECTIONS[k]["blurb"]}</span></a>'
+        f'<a class="ptile s-{k}" href="/{SECTIONS[k]["path"]}/"'
+        + (f' style="--img:url(/img/{SECTION_IMAGES[k]}-sm.jpg)"' if has_photo(SECTION_IMAGES.get(k, "")) else "")
+        + f'><b>{SECTIONS[k]["title"]}</b><span>{SECTIONS[k]["blurb"]}</span></a>'
         for k in NAV)
+    uta = LEAGUE.get("teams", {}).get("UTA")
+    tp = team_photos()
+    hp = tp["teams"].get("UTA") or (tp["action"][0] if tp["action"] else None)
     home = (
-        f'<section class="hero{" has-photo" if has_photo("olympic-hockey-2002") else ""}"'
-        + (' style="--hero-img:url(/img/olympic-hockey-2002.jpg)"' if has_photo("olympic-hockey-2002") else "")
-        + '><div class="wrap"><div class="hero-text" id="herotext">'
-        '<p class="kicker">Utah hockey</p>'
-        '<h1>Everything on ice in the Beehive State.</h1>'
-        "<p>From the old Salt Palace to the Delta Center, and from frozen ponds to Saturday-morning rec games. "
-        "Mammoth reports every Monday, plus where to skate, how to get your kids started, and which leagues take "
-        "beginners.</p>"
-        f'</div><div id="heronext">{next_game_card()}</div></div></section>'
-        f'<section class="wrap"><div class="tiles">{tiles}</div>'
+        f'<section class="thero{" has-photo" if hp else ""}" id="thero"'
+        + (f' style="--hero-img:url({hp["src"]})"' if hp else "")
+        + '><div class="wrap"><div class="th-main">'
+        '<p class="kicker">Utah\'s team</p><h1>Utah Mammoth</h1>'
+        + (f'<div class="chips"><span><b>{uta["w"]}-{uta["l"]}-{uta["otl"]}</b>Record</span><span><b>{uta["pts"]}</b>Points</span>'
+           f'<span><b>{ordinal(uta["div_rank"])}</b>{esc(uta["division"])}</span></div>' if uta else "")
+        + "<p>Scores, goals, news, stats and standings for your team, plus Utah rinks, youth and adult hockey, "
+        "and learn to skate. Pick any NHL team and the whole site switches to its colors.</p>"
+        '<button type="button" class="btn alt" data-open-picker>Pick your team</button>'
+        f'</div><div class="th-next">{next_game_card()}</div></div>'
+        + (f'<span class="credit">Photo: {esc(hp["credit"])}</span>' if hp else "")
+        + '<div class="stripes" aria-hidden="true"></div></section>'
+        '<section class="wrap">'
         '<div class="teamzone"><div id="myteam" class="myteam" aria-live="polite"></div>'
-        f'<aside class="tz-side" id="leagueside"><div id="mostviewed"></div>{side_scores()}</aside></div>'
+        '<aside class="tz-side" id="leagueside"><div id="tonight"></div><div id="mostviewed"></div>'
+        f'{side_scores()}<div id="leaguenews"></div><div id="leagueleaders"></div></aside></div>'
+        f'<h2 class="band">Utah hockey</h2><div class="ptiles">{tiles}</div>'
         f'{sponsor_strip()}{gallery()}'
         + (f'<h2>Latest Mammoth report</h2><div class="grid">{card(reports[0])}</div>' if reports else "")
         + "".join(
