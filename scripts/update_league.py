@@ -74,6 +74,32 @@ def final_game(g):
     }
 
 
+def odds_book(week):
+    """Pick one US sportsbook from the NHL schedule's odds partners."""
+    partners = week.get("oddsPartners", []) or []
+    us = [p for p in partners if (p.get("country") or "").upper() == "US"] or partners
+    names = {p.get("partnerId"): p.get("name", "") for p in us}
+    for pref in ("DraftKings", "FanDuel", "BetMGM"):
+        for pid, n in names.items():
+            if pref.lower() in (n or "").lower():
+                return pid, n
+    return (next(iter(names.items())) if names else (None, ""))
+
+
+def game_odds(g, book):
+    pid, name = book
+    out = {}
+    for side in ("away", "home"):
+        for o in (g.get(f"{side}Team", {}) or {}).get("odds", []) or []:
+            if pid is None or o.get("providerId") == pid:
+                out[side] = str(o.get("value", ""))
+                break
+    if len(out) == 2:
+        out["book"] = name
+        return out
+    return None
+
+
 def main():
     d = today()
     old = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
@@ -101,6 +127,11 @@ def main():
             "league_rank": s.get("leagueSequence", 0),
             "streak": f'{s.get("streakCode", "")}{s.get("streakCount", "")}',
             "l10": f'{s.get("l10Wins", 0)}-{s.get("l10Losses", 0)}-{s.get("l10OtLosses", 0)}',
+            "gf": s.get("goalFor", 0), "ga": s.get("goalAgainst", 0),
+            "home": f'{s.get("homeWins", 0)}-{s.get("homeLosses", 0)}-{s.get("homeOtLosses", 0)}',
+            "road": f'{s.get("roadWins", 0)}-{s.get("roadLosses", 0)}-{s.get("roadOtLosses", 0)}',
+            "pct": round(float(s.get("pointPctg", 0) or 0), 3),
+            "rw": s.get("regulationWins", 0), "wc_rank": s.get("wildcardSequence", 0),
         }
     if not teams:
         print("No standings returned, keeping existing data")
@@ -115,6 +146,7 @@ def main():
     finals.sort(key=lambda g: (g["date"], g["id"]), reverse=True)
 
     upcoming = []
+    book = odds_book(week)
     for day in week.get("gameWeek", []) or []:
         for g in day.get("games", []) or []:
             if g.get("gameState") in ("FUT", "PRE", "LIVE", "CRIT"):
@@ -122,6 +154,7 @@ def main():
                     "id": g.get("id"), "date": day.get("date", ""), "start": g.get("startTimeUTC", ""),
                     "away": g.get("awayTeam", {}).get("abbrev", ""), "home": g.get("homeTeam", {}).get("abbrev", ""),
                     "venue": txt(g.get("venue")),
+                    "odds": game_odds(g, book),
                 })
     upcoming.sort(key=lambda g: g["start"] or g["date"])
 
@@ -130,6 +163,7 @@ def main():
     if not finals and old.get("finals"):
         data["finals"] = old["finals"]  # e.g. All-Star break: keep the last highlights up
     OUT.write_text(json.dumps(data, separators=(",", ":"), ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Odds from {book[1] or 'none'}: {sum(1 for g in upcoming if g['odds'])} of {len(upcoming)} games")
     print(f"Saved {len(teams)} teams, {len(data['finals'])} finals, {len(upcoming)} upcoming")
     return 0
 

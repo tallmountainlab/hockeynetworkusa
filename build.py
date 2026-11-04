@@ -564,12 +564,11 @@ def main():
     write("highlights/index.html", render("NHL scores and highlights", "Every NHL game from the past week with recap, "
           "condensed game and goal highlight videos, filtered to your team.", highlights_page(), "/highlights/",
           active="highlights"))
-    if LEAGUE_FILE.exists():
-        (OUT / "data").mkdir(exist_ok=True)
-        shutil.copy(LEAGUE_FILE, OUT / "data" / "league.json")
-    if VIDEOS_FILE.exists():
-        (OUT / "data").mkdir(exist_ok=True)
-        shutil.copy(VIDEOS_FILE, OUT / "data" / "videos.json")
+    (OUT / "data").mkdir(exist_ok=True)
+    for name in ("league", "videos", "stats", "news"):
+        f = ROOT / "data" / f"{name}.json"
+        if f.exists():
+            shutil.copy(f, OUT / "data" / f"{name}.json")
     used = [k for k in PHOTOS if has_photo(k)]
     if used:
         rows = "".join(
