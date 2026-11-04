@@ -139,11 +139,11 @@ def weekly_report(data, monday):
     if not played:
         lede = f"No games for the Mammoth from {span}, so everybody got a breather."
     elif w > l + otl:
-        lede = f"A good week to be a Mammoth fan: {w}-{l}-{otl} from {span}, with a {gf}-{ga} goal total."
+        lede = f"A good week to be a Mammoth fan: {w}-{l}-{otl} from {span}, " + (f"outscoring opponents {gf}-{ga}." if gf > ga else f"with opponents scoring {ga} to our {gf}." if ga > gf else f"with goals even at {gf}-{ga}.")
     elif w < l + otl:
-        lede = f"A tough week for the Mammoth: {w}-{l}-{otl} from {span}, with a {gf}-{ga} goal total."
+        lede = f"A tough week for the Mammoth: {w}-{l}-{otl} from {span}, " + (f"outscoring opponents {gf}-{ga}." if gf > ga else f"with opponents scoring {ga} to our {gf}." if ga > gf else f"with goals even at {gf}-{ga}.")
     else:
-        lede = f"A split week for the Mammoth: {w}-{l}-{otl} from {span}, with a {gf}-{ga} goal total."
+        lede = f"A split week for the Mammoth: {w}-{l}-{otl} from {span}, " + (f"outscoring opponents {gf}-{ga}." if gf > ga else f"with opponents scoring {ga} to our {gf}." if ga > gf else f"with goals even at {gf}-{ga}.")
     body = ["<p>Grab a coffee, here's your Monday catch-up.</p>", f"<p>{html.escape(lede)}"]
     if rec:
         body.append(f" That puts Utah at {rec['w']}-{rec['l']}-{rec['otl']} with {rec['pts']} points, "
