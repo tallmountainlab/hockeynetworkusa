@@ -38,6 +38,44 @@ PHOTOS_FILE = ROOT / "data" / "photos.json"
 PHOTOS = json.loads(PHOTOS_FILE.read_text(encoding="utf-8")) if PHOTOS_FILE.exists() else {}
 LEAGUE_FILE = ROOT / "data" / "league.json"
 LEAGUE = json.loads(LEAGUE_FILE.read_text(encoding="utf-8")) if LEAGUE_FILE.exists() else {"teams": {}, "finals": [], "upcoming": []}
+VIDEOS_FILE = ROOT / "data" / "videos.json"
+VIDEOS = json.loads(VIDEOS_FILE.read_text(encoding="utf-8")).get("videos", []) if VIDEOS_FILE.exists() else []
+TEAM_THEMES = {  # primary, secondary
+    "ANA": ("#F47A38", "#000000"), "BOS": ("#FFB81C", "#000000"), "BUF": ("#003087", "#FFB81C"),
+    "CAR": ("#CE1126", "#000000"), "CBJ": ("#002654", "#CE1126"), "CGY": ("#C8102E", "#F1BE48"),
+    "CHI": ("#CF0A2C", "#000000"), "COL": ("#6F263D", "#236192"), "DAL": ("#006847", "#111111"),
+    "DET": ("#CE1126", "#FFFFFF"), "EDM": ("#041E42", "#FF4C00"), "FLA": ("#C8102E", "#041E42"),
+    "LAK": ("#111111", "#A2AAAD"), "MIN": ("#154734", "#A6192E"), "MTL": ("#AF1E2D", "#192168"),
+    "NJD": ("#CE1126", "#000000"), "NSH": ("#FFB81C", "#041E42"), "NYI": ("#00539B", "#F47D30"),
+    "NYR": ("#0038A8", "#CE1126"), "OTT": ("#C52032", "#000000"), "PHI": ("#F74902", "#000000"),
+    "PIT": ("#FCB514", "#000000"), "SEA": ("#001628", "#99D9D9"), "SJS": ("#006D75", "#EA7200"),
+    "STL": ("#002F87", "#FCB514"), "TBL": ("#002868", "#FFFFFF"), "TOR": ("#00205B", "#FFFFFF"),
+    "UTA": ("#010101", "#71AFE5"), "VAN": ("#00205B", "#00843D"), "VGK": ("#B4975A", "#333F42"),
+    "WPG": ("#041E42", "#AC162C"), "WSH": ("#C8102E", "#041E42"),
+}
+
+
+def _lum(c):
+    r, g, b = (int(c[i:i + 2], 16) for i in (1, 3, 5))
+    return 0.299 * r + 0.587 * g + 0.114 * b
+
+
+def _mix(c, t, k):
+    a = [int(c[i:i + 2], 16) for i in (1, 3, 5)]
+    b = [int(t[i:i + 2], 16) for i in (1, 3, 5)]
+    return "#" + "".join(f"{round(x + (y - x) * k):02x}" for x, y in zip(a, b))
+
+
+def team_theme(ab):
+    p, s2 = TEAM_THEMES[ab]
+    dark, light = (p, s2) if _lum(p) <= _lum(s2) else (s2, p)
+    accent = light if _lum(light) < 215 else dark
+    if _lum(dark) > 110:  # e.g. Vegas gold: deepen it so white text stays readable
+        dark = _mix(dark, "#000000", 0.55)
+    link = dark if _lum(dark) > 25 else _mix(accent, "#000000", 0.35) if _lum(accent) > 120 else accent
+    return {"navy": dark, "goal": accent, "ice": link}
+
+
 TEAM_COLORS = {
     "ANA": "#F47A38", "BOS": "#FFB81C", "BUF": "#003087", "CAR": "#CE1126", "CBJ": "#002654", "CGY": "#C8102E",
     "CHI": "#CF0A2C", "COL": "#6F263D", "DAL": "#006847", "DET": "#CE1126", "EDM": "#FF4C00", "FLA": "#C8102E",
@@ -134,6 +172,23 @@ def team_badge(ab):
     return f'<span class="badge" style="background:{c};color:{ink}">{esc(ab)}</span>'
 
 
+def theme_script():
+    themes = {ab: team_theme(ab) for ab in TEAM_THEMES}
+    return ("<script>(function(){var T=" + json.dumps(themes, separators=(",", ":")) + ",t;"
+            "try{t=localStorage.getItem('hnusa-team')}catch(e){}"
+            "if(t&&T[t]){var r=document.documentElement,c=T[t];r.dataset.team=t;"
+            "r.style.setProperty('--navy',c.navy);r.style.setProperty('--goal',c.goal);r.style.setProperty('--ice',c.ice);}"
+            "window.HNUSA_THEMES=T;})();</script>")
+
+
+def video_for_game(g):
+    want = {g["away"], g["home"]}
+    for v in VIDEOS:
+        if v.get("kind") == "game" and want <= set(v.get("teams", [])) and v.get("published", "")[:10] >= g["date"]:
+            return v
+    return None
+
+
 def team_name(ab):
     return LEAGUE.get("teams", {}).get(ab, {}).get("name", ab)
 
@@ -151,7 +206,10 @@ def game_card(g):
     vids = "".join(
         f'<a class="vid" href="{esc(u)}" target="_blank" rel="noopener">&#9654; {lbl}</a>'
         for u, lbl in ((g.get("recap"), "Recap"), (g.get("condensed"), "Condensed game")) if u)
-    return (f'<article class="game" data-teams="{g["away"]} {g["home"]}">'
+    yv = video_for_game(g)
+    thumb = (f'<button type="button" class="yt" data-yt="{yv["id"]}" aria-label="Play {esc(yv["title"])}">'
+             f'<img src="{esc(yv["thumb"])}" alt="" loading="lazy"><span class="play"></span></button>' if yv else "")
+    return (f'<article class="game" data-teams="{g["away"]} {g["home"]}">{thumb}'
             f'<div class="line{" won" if win_a else ""}">{team_badge(g["away"])}<span>{esc(team_name(g["away"]))}</span><b>{g["as"]}</b></div>'
             f'<div class="line{" won" if win_h else ""}">{team_badge(g["home"])}<span>{esc(team_name(g["home"]))}</span><b>{g["hs"]}</b></div>'
             f'<p class="meta">Final{ot}</p><div class="vids">{vids}</div>'
@@ -184,6 +242,31 @@ def highlights_strip(n=4):
     return (f'<h2>Around the league · {short_date(last)}</h2><div class="games">'
             + "".join(game_card(g) for g in games)
             + '</div><p><a class="btn ghost" href="/highlights/">All scores and highlight videos &rarr;</a></p>')
+
+
+def side_scores(n=8):
+    finals = LEAGUE.get("finals", [])
+    if not finals:
+        return ""
+    last = finals[0]["date"]
+    rows = "".join(
+        f'<li data-teams="{g["away"]} {g["home"]}">{team_badge(g["away"])} <b>{g["as"]}</b> '
+        f'<span class="at">@</span> {team_badge(g["home"])} <b>{g["hs"]}</b>'
+        f'{" <span class=ot>" + g["ending"] + "</span>" if g.get("ending") in ("OT", "SO") else ""}'
+        + (f' <a href="{esc(g["recap"])}" target="_blank" rel="noopener">recap</a>' if g.get("recap") else "") + "</li>"
+        for g in [g for g in finals if g["date"] == last][:n])
+    return (f'<section class="side-box"><span class="kicker">Around the NHL · {short_date(last)}</span>'
+            f'<ul class="mini-scores">{rows}</ul><a href="/highlights/">All scores &amp; highlights &rarr;</a></section>')
+
+
+def gallery():
+    keys = [k for k in ("salt-palace", "olympic-hockey-2002", "grizzlies", "peaks-sign", "pond-hockey", "youth-game",
+                        "rice-eccles", "olympic-oval") if has_photo(k)]
+    if not keys:
+        return ""
+    return ('<h2>Utah hockey in pictures</h2><div class="gallery">' + "".join(
+        f'<figure><img src="/img/{k}-sm.jpg" alt="{esc(PHOTOS[k]["alt"])}" loading="lazy"><figcaption>{esc(PHOTOS[k]["caption"])}</figcaption></figure>'
+        for k in keys) + '</div><p class="meta"><a href="/photo-credits/">Photo credits</a></p>')
 
 
 def highlights_page():
@@ -281,7 +364,7 @@ def shortcodes(body):
 
 # ---------- page shell ----------
 def render(title, description, content, path, extra_head="", active=""):
-    head = extra_head
+    head = theme_script() + extra_head
     if SITE.get("adsense_client_id"):
         head += ('<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
                  f'?client={esc(SITE["adsense_client_id"])}" crossorigin="anonymous"></script>')
@@ -459,16 +542,17 @@ def main():
     home = (
         f'<section class="hero{" has-photo" if has_photo("olympic-hockey-2002") else ""}"'
         + (' style="--hero-img:url(/img/olympic-hockey-2002.jpg)"' if has_photo("olympic-hockey-2002") else "")
-        + '><div class="wrap"><div class="hero-text">'
+        + '><div class="wrap"><div class="hero-text" id="herotext">'
         '<p class="kicker">Utah hockey</p>'
         '<h1>Everything on ice in the Beehive State.</h1>'
         "<p>From the old Salt Palace to the Delta Center, and from frozen ponds to Saturday-morning rec games. "
         "Mammoth reports every Monday, plus where to skate, how to get your kids started, and which leagues take "
         "beginners.</p>"
-        f'</div>{next_game_card()}</div></section>'
+        f'</div><div id="heronext">{next_game_card()}</div></div></section>'
         f'<section class="wrap"><div class="tiles">{tiles}</div>'
-        '<section id="myteam" class="myteam" aria-live="polite"></section>'
-        f'{sponsor_strip()}{highlights_strip()}'
+        '<div class="teamzone"><div id="myteam" class="myteam" aria-live="polite"></div>'
+        f'<aside class="tz-side" id="leagueside"><div id="mostviewed"></div>{side_scores()}</aside></div>'
+        f'{sponsor_strip()}{gallery()}'
         + (f'<h2>Latest Mammoth report</h2><div class="grid">{card(reports[0])}</div>' if reports else "")
         + "".join(
             f'<a class="lane" href="{a["url"]}"><span class="kicker">Memory lane</span>'
@@ -483,6 +567,9 @@ def main():
     if LEAGUE_FILE.exists():
         (OUT / "data").mkdir(exist_ok=True)
         shutil.copy(LEAGUE_FILE, OUT / "data" / "league.json")
+    if VIDEOS_FILE.exists():
+        (OUT / "data").mkdir(exist_ok=True)
+        shutil.copy(VIDEOS_FILE, OUT / "data" / "videos.json")
     used = [k for k in PHOTOS if has_photo(k)]
     if used:
         rows = "".join(
