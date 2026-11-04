@@ -168,5 +168,335 @@
   "author": "Chme82",
   "license": "CC BY-SA 4.0",
   "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "action-faceoff": {
+  "from": "action-faceoff/5",
+  "alt": "A faceoff in a European league game",
+  "caption": "Faceoff, the oldest standoff in hockey.",
+  "title": "File:RødovreFrederikshavnFaceoff.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:R%C3%B8dovreFrederikshavnFaceoff.jpg",
+  "author": "HenrikRomby",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "action-goal": {
+  "from": "action-goal/6",
+  "alt": "A player celebrating his first NHL goal",
+  "caption": "A first NHL goal, the one nobody forgets.",
+  "title": "File:Tye Kartye first NHL goal.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Tye_Kartye_first_NHL_goal.jpg",
+  "author": "Jenn G",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "action-celebrate": {
+  "from": "action-goal/7",
+  "alt": "Washington Capitals players celebrating a goal",
+  "caption": "Capitals celebrate against the Penguins, 2020.",
+  "title": "File:Washington Capitals goal celebration - 2020 - All-Pro Reels (49479659471).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Washington_Capitals_goal_celebration_-_2020_-_All-Pro_Reels_(49479659471).jpg",
+  "author": "All-Pro Reels from District of Columbia, USA",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "action-goalie": {
+  "from": "action-goalie/6",
+  "alt": "A Colorado Avalanche goalie sprawling to make a save in traffic",
+  "caption": "An Avalanche goalie scrambles for a save.",
+  "title": "File:Avalanche Weiman bw game.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Avalanche_Weiman_bw_game.jpg",
+  "author": "U.S. Air Force photo/Dave Armer",
+  "license": "Public domain",
+  "license_url": ""
+ },
+ "action-shot": {
+  "from": "action-play/8",
+  "alt": "A college hockey player taking a shot",
+  "caption": "Air Force Falcons college hockey.",
+  "title": "File:Matt Koch (Air Force Falcons men's ice hockey player) during game against Bentley Falcons at Cadet Arena in Colorado Springs on November 9, 2018 (44077825200).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Matt_Koch_(Air_Force_Falcons_men%27s_ice_hockey_player)_during_game_against_Bentley_Falcons_at_Cadet_Arena_in_Colorado_Springs_on_November_9,_2018_(44077825200).jpg",
+  "author": "U.S. Air Force Academy -- (U.S. Air Force photo by Trevor Cokley)",
+  "license": "Public domain",
+  "license_url": ""
+ },
+ "action-crowd": {
+  "from": "action-crowd/2",
+  "alt": "Fans packing an arena during an international hockey game",
+  "caption": "A packed rink and a loud crowd.",
+  "title": "File:Polish fans Poland-Hungary Arena Sanok (Krisztián Budai).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Polish_fans_Poland-Hungary_Arena_Sanok_(Kriszti%C3%A1n_Budai).jpg",
+  "author": "Lowdown",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "action-outdoor": {
+  "from": "action-outdoor/1",
+  "alt": "Philadelphia Flyers celebrating an outdoor overtime win at a football stadium",
+  "caption": "Flyers celebrate an outdoor OT win over the Penguins.",
+  "title": "File:2019 NHL Stadium Series at Lincoln Financial Field in Philadelphia.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:2019_NHL_Stadium_Series_at_Lincoln_Financial_Field_in_Philadelphia.jpg",
+  "author": "Patriarca12",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0"
+ },
+ "action-stadium": {
+  "from": "action-outdoor/7",
+  "alt": "An NHL Stadium Series game inside a football stadium",
+  "caption": "NHL Stadium Series: Blackhawks vs. Penguins.",
+  "title": "File:Reserve general officer, Soldiers honored during Stadium Series NHL game (12882405554).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Reserve_general_officer,_Soldiers_honored_during_Stadium_Series_NHL_game_(12882405554).jpg",
+  "author": "416th Theater Engineer Command Army Reserve",
+  "license": "Public domain",
+  "license_url": ""
+ },
+ "team-BOS": {
+  "from": "team-BOS/1",
+  "alt": "Boston Bruins players on the ice during an NHL game",
+  "caption": "The Boston Bruins on the ice.",
+  "title": "File:Joe Corvo of the Boston Bruins at TD Garden, Boston, Massachusetts - 20120204.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Joe_Corvo_of_the_Boston_Bruins_at_TD_Garden,_Boston,_Massachusetts_-_20120204.jpg",
+  "author": "Dan4th Nicholas.",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0"
+ },
+ "team-CAR": {
+  "from": "team-CAR/2",
+  "alt": "Carolina Hurricanes players on the ice during an NHL game",
+  "caption": "The Carolina Hurricanes on the ice.",
+  "title": "File:Carolina Hurricanes vs. Florida Panthers - March 14, 2015 (16898679741).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Carolina_Hurricanes_vs._Florida_Panthers_-_March_14,_2015_(16898679741).jpg",
+  "author": "Doug Kerr from Albany, NY, United States",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-CGY": {
+  "from": "team-CGY/3",
+  "alt": "Calgary Flames defenseman Brad Marsh in an early 1980s game",
+  "caption": "Brad Marsh and the Flames at the old Checkerdome, early 1980s.",
+  "title": "File:Brad-marsh calgary-flames-v-st-louis 11-29-1980.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Brad-marsh_calgary-flames-v-st-louis_11-29-1980.jpg",
+  "author": "RickDikeman",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+ },
+ "team-COL": {
+  "from": "team-COL/7",
+  "alt": "Colorado Avalanche players on the ice during an NHL game",
+  "caption": "The Colorado Avalanche on the ice.",
+  "title": "File:Colorado Avalanche Playoffs!.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Colorado_Avalanche_Playoffs!.jpg",
+  "author": "Matt Boulton",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-DAL": {
+  "from": "team-DAL/4",
+  "alt": "Dallas Stars players on the ice during an NHL game",
+  "caption": "The Dallas Stars on the ice.",
+  "title": "File:Dallas Stars and Seattle Kraken players on the ice 3-31-2025.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Dallas_Stars_and_Seattle_Kraken_players_on_the_ice_3-31-2025.jpg",
+  "author": "Jenn G",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-DET": {
+  "from": "team-DET/1",
+  "alt": "Detroit Red Wings players during a game against Montreal at Joe Louis Arena",
+  "caption": "The Red Wings at the late, great Joe Louis Arena.",
+  "title": "File:Montreal Canadiens vs. Detroit Red Wings November 2014 05.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Montreal_Canadiens_vs._Detroit_Red_Wings_November_2014_05.jpg",
+  "author": "Michael Barera",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "team-EDM": {
+  "from": "team-EDM/4",
+  "alt": "Edmonton Oilers rookies playing a game",
+  "caption": "Oilers rookies on the ice.",
+  "title": "File:Edmonton Oilers Rookies vs UofA Golden Bears (15275352115).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Edmonton_Oilers_Rookies_vs_UofA_Golden_Bears_(15275352115).jpg",
+  "author": "IQRemix from Canada",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-LAK": {
+  "from": "team-LAK/4",
+  "alt": "Los Angeles Kings players on the ice during an NHL game",
+  "caption": "The Los Angeles Kings on the ice.",
+  "title": "File:Los Angeles Kings at Seattle Kraken - April 1, 2023 - Adrian Kempe and Matt Roy (52787336957).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Los_Angeles_Kings_at_Seattle_Kraken_-_April_1,_2023_-_Adrian_Kempe_and_Matt_Roy_(52787336957).jpg",
+  "author": "Jenn G from Seattle, WA",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-NJD": {
+  "from": "team-NJD/1",
+  "alt": "New Jersey Devils players on the ice during an NHL game",
+  "caption": "The New Jersey Devils on the ice.",
+  "title": "File:New Jersey Devils at Seattle Kraken - 2023-12-07 - Jack Hughes and Vítek Vaněček (53384406596) (cropped).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:New_Jersey_Devils_at_Seattle_Kraken_-_2023-12-07_-_Jack_Hughes_and_V%C3%ADtek_Van%C4%9B%C4%8Dek_(53384406596)_(cropped).jpg",
+  "author": "Jenn G from Seattle, WA",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-NSH": {
+  "from": "team-NSH/2",
+  "alt": "Nashville Predators players on the ice during an NHL game",
+  "caption": "The Nashville Predators on the ice.",
+  "title": "File:Nashville Predators at Washington Capitals - April 5, 2018 - Ryan Johansen and Devante Smith-Pelly (50121246331).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Nashville_Predators_at_Washington_Capitals_-_April_5,_2018_-_Ryan_Johansen_and_Devante_Smith-Pelly_(50121246331).jpg",
+  "author": "All-Pro Reels from District of Columbia, USA",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-NYI": {
+  "from": "team-NYI/1",
+  "alt": "New York Islanders players on the ice during an NHL game",
+  "caption": "The New York Islanders on the ice.",
+  "title": "File:The Islanders Win! (25894388753).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Islanders_Win!_(25894388753).jpg",
+  "author": "slgckgc",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0"
+ },
+ "team-NYR": {
+  "from": "team-NYR/4",
+  "alt": "New York Rangers players on the ice during an NHL game",
+  "caption": "The New York Rangers on the ice.",
+  "title": "File:Erik Gustafsson Rangers 10 21 23.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Erik_Gustafsson_Rangers_10_21_23.jpg",
+  "author": "Jenn G",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-OTT": {
+  "from": "team-OTT/1",
+  "alt": "Ottawa Senators players on the ice during an NHL game",
+  "caption": "The Ottawa Senators on the ice.",
+  "title": "File:Ottawa Senators at Washington Capitals - January 22, 2022 - Erik Brännström (51846435222).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Ottawa_Senators_at_Washington_Capitals_-_January_22,_2022_-_Erik_Br%C3%A4nnstr%C3%B6m_(51846435222).jpg",
+  "author": "All-Pro Reels from District of Columbia, USA",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-PHI": {
+  "from": "team-PHI/2",
+  "alt": "Philadelphia Flyers players on the ice during an NHL game",
+  "caption": "The Philadelphia Flyers on the ice.",
+  "title": "File:Philadelphia Flyers at Seattle Kraken - December 29, 2023 - Will Borgen and Morgan Frost (53431991371).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Philadelphia_Flyers_at_Seattle_Kraken_-_December_29,_2023_-_Will_Borgen_and_Morgan_Frost_(53431991371).jpg",
+  "author": "Jenn G from Seattle, WA",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-PIT": {
+  "from": "team-PIT/4",
+  "alt": "Pittsburgh Penguins players on the ice during an NHL game",
+  "caption": "The Pittsburgh Penguins on the ice.",
+  "title": "File:Pittsburgh Penguins (33775573563) Edit.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Pittsburgh_Penguins_(33775573563)_Edit.jpg",
+  "author": "Keith Allison from Hanover, MD, USA",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-SEA": {
+  "from": "team-SEA/8",
+  "alt": "Seattle Kraken players on the ice during an NHL game",
+  "caption": "The Seattle Kraken on the ice.",
+  "title": "File:Ryker Evans with the Seattle Kraken.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Ryker_Evans_with_the_Seattle_Kraken.jpg",
+  "author": "Jenn G",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-SJS": {
+  "from": "team-SJS/7",
+  "alt": "San Jose Sharks players celebrating a win",
+  "caption": "The Sharks celebrate a shutout win.",
+  "title": "File:SJ Sharks 121106 celebration.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:SJ_Sharks_121106_celebration.jpg",
+  "author": "User:Dante Alighieri",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/"
+ },
+ "team-STL": {
+  "from": "team-STL/2",
+  "alt": "St. Louis Blues players on the ice during an NHL game",
+  "caption": "The St. Louis Blues on the ice.",
+  "title": "File:Chicago Blackhawks vs. St. Louis Blues game on Dec. 3, 2011 at Scottrade Center in St. Louis 8560 (6469940787).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Chicago_Blackhawks_vs._St._Louis_Blues_game_on_Dec._3,_2011_at_Scottrade_Center_in_St._Louis_8560_(6469940787).jpg",
+  "author": "Remy Connors",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0"
+ },
+ "team-TBL": {
+  "from": "team-TBL/1",
+  "alt": "The arena in Tampa before a Lightning game",
+  "caption": "Amalie Arena before a Lightning game.",
+  "title": "File:Tampa Bay Lightning Game.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Tampa_Bay_Lightning_Game.jpg",
+  "author": "Chris3435s",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+ },
+ "team-TOR": {
+  "from": "team-TOR/1",
+  "alt": "Toronto Maple Leafs players on the ice during an NHL game",
+  "caption": "The Toronto Maple Leafs on the ice.",
+  "title": "File:Capitals-Maple Leafs (34077801711).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Capitals-Maple_Leafs_(34077801711).jpg",
+  "author": "David from Washington, DC",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0"
+ },
+ "team-UTA": {
+  "from": "team-UTA/6",
+  "alt": "Utah players including goalie Karel Vejmelka during a game in Seattle",
+  "caption": "Utah on the road in Seattle, with Vejmelka in net.",
+  "title": "File:McBain, Vejmelka, and Sergachev - December 2024.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:McBain,_Vejmelka,_and_Sergachev_-_December_2024.jpg",
+  "author": "Jenn G from Seattle, WA",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-VAN": {
+  "from": "team-VAN/1",
+  "alt": "Vancouver Canucks players on the ice during an NHL game",
+  "caption": "The Vancouver Canucks on the ice.",
+  "title": "File:Vancouver Canucks pre-game goal scramble.JPG",
+  "page": "https://commons.wikimedia.org/wiki/File:Vancouver_Canucks_pre-game_goal_scramble.JPG",
+  "author": "Orlandkurtenbach",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "team-VGK": {
+  "from": "team-VGK/2",
+  "alt": "Vegas Golden Knights players on the ice during an NHL game",
+  "caption": "The Vegas Golden Knights on the ice.",
+  "title": "File:Winter Classic - Vegas Golden Knights at Seattle Kraken - January 1, 2024 - Tye Kartye and Brett Howden (53439910017).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Winter_Classic_-_Vegas_Golden_Knights_at_Seattle_Kraken_-_January_1,_2024_-_Tye_Kartye_and_Brett_Howden_(53439910017).jpg",
+  "author": "Jenn G from Seattle, WA",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-WPG": {
+  "from": "team-WPG/3",
+  "alt": "Winnipeg Jets players on the ice during an NHL game",
+  "caption": "The Winnipeg Jets on the ice.",
+  "title": "File:Winnipeg Jets at Seattle Kraken - 2024-03-08 - Laurent Brossoit (53576167076).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Winnipeg_Jets_at_Seattle_Kraken_-_2024-03-08_-_Laurent_Brossoit_(53576167076).jpg",
+  "author": "Jenn G from Seattle, WA",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-WSH": {
+  "from": "team-WSH/2",
+  "alt": "Washington Capitals players on the ice during an NHL game",
+  "caption": "The Washington Capitals on the ice.",
+  "title": "File:Washington Capitals (33775678723) (2).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Washington_Capitals_(33775678723)_(2).jpg",
+  "author": "Keith Allison from Hanover, MD, USA",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
  }
 }

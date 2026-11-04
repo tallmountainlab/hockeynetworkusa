@@ -307,11 +307,11 @@ def side_scores(n=8):
 
 
 def gallery():
-    keys = [k for k in ("salt-palace", "olympic-hockey-2002", "grizzlies", "peaks-sign", "pond-hockey", "youth-game",
-                        "rice-eccles", "olympic-oval") if has_photo(k)]
+    keys = [k for k in ("action-goal", "salt-palace", "action-stadium", "olympic-hockey-2002", "action-goalie", "grizzlies",
+                        "action-celebrate", "pond-hockey", "action-faceoff", "youth-game", "team-CGY", "peaks-sign") if has_photo(k)]
     if not keys:
         return ""
-    return ('<h2>Utah hockey in pictures</h2><div class="gallery">' + "".join(
+    return ('<h2 class="band">Hockey in pictures</h2><div class="gallery">' + "".join(
         f'<figure><img src="/img/{k}-sm.jpg" alt="{esc(PHOTOS[k]["alt"])}" loading="lazy"><figcaption>{esc(PHOTOS[k]["caption"])}</figcaption></figure>'
         for k in keys) + '</div><p class="meta"><a href="/photo-credits/">Photo credits</a></p>')
 
