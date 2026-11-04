@@ -1,0 +1,28 @@
+name: Weekly local rinks update
+
+on:
+  schedule:
+    - cron: "30 9 * * 1"   # Mondays
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  local:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Pull ice rinks near every NHL city from OpenStreetMap
+        run: python3 scripts/update_local.py
+      - name: Rebuild site
+        run: python3 build.py
+      - name: Commit changes
+        run: |
+          git config user.name "hnusa-bot"
+          git config user.email "bot@hockeynetworkusa.com"
+          git add -A
+          git diff --cached --quiet || (git commit -m "Weekly local rinks update" && git pull --rebase && git push)
