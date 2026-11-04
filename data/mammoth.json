@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04T02:52:40Z",
+ "updated": "2026-11-04T06:00:38Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
@@ -11,7 +11,7 @@
   "otl": 0,
   "pts": 20,
   "div_rank": 2,
-  "league_rank": 8,
+  "league_rank": 9,
   "streak": "W1",
   "l10": "6-4-0"
  },
@@ -26,7 +26,7 @@
    "otl": 3,
    "pts": 25,
    "div_rank": 1,
-   "league_rank": 2,
+   "league_rank": 3,
    "streak": "W2",
    "l10": "7-1-2"
   },
@@ -40,7 +40,7 @@
    "otl": 0,
    "pts": 20,
    "div_rank": 2,
-   "league_rank": 8,
+   "league_rank": 9,
    "streak": "W1",
    "l10": "6-4-0"
   },
@@ -54,7 +54,7 @@
    "otl": 1,
    "pts": 19,
    "div_rank": 3,
-   "league_rank": 9,
+   "league_rank": 10,
    "streak": "W2",
    "l10": "7-3-0"
   },
@@ -68,50 +68,50 @@
    "otl": 1,
    "pts": 19,
    "div_rank": 4,
-   "league_rank": 10,
+   "league_rank": 11,
    "streak": "L1",
    "l10": "5-4-1"
-  },
-  {
-   "abbrev": "STL",
-   "team": "St. Louis Blues",
-   "division": "Central",
-   "gp": 14,
-   "w": 7,
-   "l": 6,
-   "otl": 1,
-   "pts": 15,
-   "div_rank": 5,
-   "league_rank": 20,
-   "streak": "W2",
-   "l10": "6-4-0"
   },
   {
    "abbrev": "NSH",
    "team": "Nashville Predators",
    "division": "Central",
-   "gp": 14,
-   "w": 5,
+   "gp": 15,
+   "w": 6,
    "l": 4,
    "otl": 5,
+   "pts": 17,
+   "div_rank": 5,
+   "league_rank": 17,
+   "streak": "W2",
+   "l10": "4-3-3"
+  },
+  {
+   "abbrev": "STL",
+   "team": "St. Louis Blues",
+   "division": "Central",
+   "gp": 15,
+   "w": 7,
+   "l": 7,
+   "otl": 1,
    "pts": 15,
    "div_rank": 6,
-   "league_rank": 21,
-   "streak": "W1",
-   "l10": "3-3-4"
+   "league_rank": 22,
+   "streak": "L1",
+   "l10": "5-5-0"
   },
   {
    "abbrev": "WPG",
    "team": "Winnipeg Jets",
    "division": "Central",
-   "gp": 15,
-   "w": 4,
+   "gp": 16,
+   "w": 5,
    "l": 8,
    "otl": 3,
-   "pts": 11,
+   "pts": 13,
    "div_rank": 7,
-   "league_rank": 29,
-   "streak": "L5",
+   "league_rank": 26,
+   "streak": "W1",
    "l10": "1-7-2"
   },
   {
