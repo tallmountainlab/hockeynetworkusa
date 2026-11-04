@@ -24,6 +24,7 @@
 <header class="top"><div class="wrap bar">
   <a class="logo" href="/" aria-label="Hockey Network USA home"><span class="puck" aria-hidden="true"></span>Hockey Network <em>USA</em></a>
   <nav>{{nav}}</nav>
+  <button class="mybtn" type="button" data-open-picker aria-haspopup="dialog">My team: <b data-myteam-label>UTA</b></button>
 </div></header>
 <main>
 {{content}}
@@ -31,8 +32,10 @@
 <footer class="foot"><div class="wrap">
   <p class="logo small-logo"><span class="puck" aria-hidden="true"></span>Hockey Network <em>USA</em></p>
   <p>{{tagline}}.</p>
-  <p><a href="/about/">About</a> · <a href="/advertise/">Advertise</a> · <a href="/disclosure/">Affiliate disclosure</a> · <a href="/privacy/">Privacy</a> · <a href="mailto:{{contact_email}}">Contact</a> · <a href="/feed.xml">RSS</a></p>
+  <p><a href="/about/">About</a> · <a href="/advertise/">Advertise</a> · <a href="/disclosure/">Affiliate disclosure</a> · <a href="/privacy/">Privacy</a> · <a href="/photo-credits/">Photo credits</a> · <a href="mailto:{{contact_email}}">Contact</a> · <a href="/feed.xml">RSS</a></p>
   <p class="small">© {{year}} Hockey Network USA. An independent fan site, not affiliated with the NHL, the Utah Mammoth, USA Hockey or any rink. Team names are used for identification only.</p>
 </div></footer>
+{{team_picker}}
+<script src="/team.js" defer></script>
 </body>
 </html>

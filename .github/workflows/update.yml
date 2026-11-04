@@ -18,6 +18,8 @@ jobs:
           python-version: "3.12"
       - name: Pull schedule, results and standings
         run: python3 scripts/update_mammoth.py
+      - name: Pull league scores and highlights
+        run: python3 scripts/update_league.py
       - name: Rebuild site
         run: python3 build.py
       - name: Commit changes

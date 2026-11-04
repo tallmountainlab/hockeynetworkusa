@@ -136,3 +136,56 @@ tr.us td{font-weight:600;background:var(--ice-soft)}
 .memories .kicker{color:var(--sepia)}
 .memories h3{font-family:Georgia,serif;font-style:italic;text-transform:none;font-size:1.6rem;margin:.2em 0}
 .memories p{color:var(--muted);margin:0 0 8px}
+/* photos */
+.photo{margin:1.4em 0}
+.photo img{width:100%;height:auto;border-radius:12px;display:block;aspect-ratio:16/9;object-fit:cover;background:var(--paper)}
+.photo figcaption{font-size:.82rem;color:var(--muted);margin-top:6px}
+.photo figcaption a{color:var(--muted)}
+.lead-photo{margin-top:.6em}
+.hub-photo img{aspect-ratio:21/8}
+.card.has-img{padding-top:0;overflow:hidden}
+.card .thumb{display:block;width:calc(100% + 40px);margin:0 -20px 14px;aspect-ratio:16/9;object-fit:cover}
+.hero.has-photo{background:linear-gradient(180deg,rgba(11,29,51,.82),rgba(18,53,90,.88)),var(--hero-img) center/cover no-repeat}
+.credits{list-style:none;padding:0}
+.credits li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+.credits img{width:120px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;flex:none}
+/* team picker */
+.mybtn{font:inherit;font-size:.85rem;font-weight:600;background:rgba(127,211,247,.16);color:var(--navy-ink);border:1px solid rgba(127,211,247,.4);
+  border-radius:999px;padding:5px 12px;cursor:pointer;white-space:nowrap}
+.mybtn b{color:#7fd3f7}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:24px;padding:0 6px;border-radius:6px;
+  font:700 .78rem/1 "Barlow Condensed",sans-serif;letter-spacing:.04em;flex:none}
+.teampick{border:0;border-radius:16px;padding:22px;max-width:760px;width:calc(100% - 32px);background:var(--surface);color:var(--ink)}
+.teampick::backdrop{background:rgba(6,16,28,.6)}
+.teampick h2{margin:0 0 4px}.teampick h3{font-size:1.1rem;margin:16px 0 6px;color:var(--muted)}
+.teampick .x{float:right;font-size:1.6rem;line-height:1;background:none;border:0;color:var(--muted);cursor:pointer}
+.picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px}
+.picks button{display:flex;align-items:center;gap:8px;font:inherit;font-size:.92rem;text-align:left;background:var(--bg);color:var(--ink);
+  border:1px solid var(--line);border-radius:10px;padding:7px 9px;cursor:pointer}
+.picks button[aria-pressed=true]{border-color:var(--goal);box-shadow:0 0 0 2px var(--goal) inset}
+.myteam:empty{display:none}
+.myteam{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin:0 0 24px;
+  display:grid;grid-template-columns:1fr 1fr;gap:6px 24px}
+.mt-head{grid-column:1/-1;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.mt-head .badge{min-width:58px;height:34px;font-size:1rem}
+.mt-head h2{margin:2px 0;font-size:1.7rem}.mt-head p{margin:0}
+.mt-head .btn{margin-left:auto}
+.mt-last .score{font-size:1.15rem;margin:4px 0 8px}
+.mt-list ul{list-style:none;padding:0;margin:6px 0}.mt-list li{padding:4px 0;border-bottom:1px solid var(--line);font-size:.94rem}
+.mt-foot{grid-column:1/-1;margin:8px 0 0;font-weight:600}
+@media (max-width:700px){.myteam{grid-template-columns:1fr}.mt-head .btn{margin-left:0}}
+.btn.ghost{background:transparent;color:var(--ice);border:1px solid var(--ice)}
+/* games */
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 24px}
+.game{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+.game.is-mine{border-color:var(--goal);box-shadow:0 0 0 1px var(--goal) inset}
+.game .line{display:flex;align-items:center;gap:8px;padding:3px 0;color:var(--muted)}
+.game .line>span:not(.badge){flex:1;line-height:1.25}.game .line b{font:700 1.4rem "Barlow Condensed",sans-serif}
+.game .line.won{color:var(--ink)}.game .line.won span{font-weight:600}
+.game .meta{margin:4px 0 8px}.ot{font-weight:600}
+.vids{display:flex;flex-wrap:wrap;gap:6px}
+.vid{font-size:.85rem;font-weight:600;text-decoration:none;background:var(--navy);color:#fff;border-radius:999px;padding:5px 11px}
+.game details{margin-top:8px;font-size:.9rem}.game summary{cursor:pointer;color:var(--ice);font-weight:600}
+.goals{list-style:none;padding:0;margin:6px 0}.goals li{display:flex;align-items:center;gap:6px;padding:3px 0;flex-wrap:wrap}
+.goals .badge{min-width:36px;height:20px;font-size:.7rem}
+.onlymine{display:inline-flex;gap:8px;align-items:center;font-weight:600;margin:8px 0}

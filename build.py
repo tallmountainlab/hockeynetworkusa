@@ -34,6 +34,18 @@ SITE = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
 TEMPLATE = (ROOT / "templates" / "base.html").read_text(encoding="utf-8")
 MAMMOTH = json.loads((ROOT / "data" / "mammoth.json").read_text(encoding="utf-8"))
 RINKS = json.loads((ROOT / "data" / "rinks.json").read_text(encoding="utf-8"))
+PHOTOS_FILE = ROOT / "data" / "photos.json"
+PHOTOS = json.loads(PHOTOS_FILE.read_text(encoding="utf-8")) if PHOTOS_FILE.exists() else {}
+LEAGUE_FILE = ROOT / "data" / "league.json"
+LEAGUE = json.loads(LEAGUE_FILE.read_text(encoding="utf-8")) if LEAGUE_FILE.exists() else {"teams": {}, "finals": [], "upcoming": []}
+TEAM_COLORS = {
+    "ANA": "#F47A38", "BOS": "#FFB81C", "BUF": "#003087", "CAR": "#CE1126", "CBJ": "#002654", "CGY": "#C8102E",
+    "CHI": "#CF0A2C", "COL": "#6F263D", "DAL": "#006847", "DET": "#CE1126", "EDM": "#FF4C00", "FLA": "#C8102E",
+    "LAK": "#111111", "MIN": "#154734", "MTL": "#AF1E2D", "NJD": "#CE1126", "NSH": "#FFB81C", "NYI": "#00539B",
+    "NYR": "#0038A8", "OTT": "#C52032", "PHI": "#F74902", "PIT": "#FCB514", "SEA": "#001628", "SJS": "#006D75",
+    "STL": "#002F87", "TBL": "#002868", "TOR": "#00205B", "UTA": "#71AFE5", "VAN": "#00205B", "VGK": "#B4975A",
+    "WPG": "#041E42", "WSH": "#C8102E",
+}
 TODAY = date.today().isoformat()
 
 SECTIONS = {
@@ -49,6 +61,8 @@ SECTIONS = {
               "blurb": "Every sheet of ice we know of in Utah, indoor and outdoor."},
 }
 NAV = ["mammoth", "rinks", "youth", "adult", "skate"]
+SECTION_IMAGES = {"mammoth": "delta-center", "rinks": "peaks-arena", "youth": "youth-game",
+                  "adult": "pond-hockey", "skate": "holiday-rink"}
 esc = html.escape
 
 
@@ -94,6 +108,100 @@ def game_time(g):
 def ordinal(n):
     n = int(n or 0)
     return f"{n}{'th' if 11 <= n % 100 <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')}"
+
+
+# ---------- photos ----------
+def has_photo(key):
+    return key in PHOTOS and (ROOT / "static" / "img" / f"{key}.jpg").exists()
+
+
+def figure(key, cls="photo", eager=False):
+    if not has_photo(key):
+        return ""
+    p = PHOTOS[key]
+    author = re.sub(r"\s+from .*$", "", p.get("author", "")) or "Wikimedia Commons"
+    return (f'<figure class="{cls}"><img src="/img/{key}.jpg" srcset="/img/{key}-sm.jpg 720w, /img/{key}.jpg 1600w" '
+            f'sizes="(max-width: 780px) 100vw, 780px" alt="{esc(p.get("alt", ""))}"{"" if eager else " loading=lazy"}>'
+            f'<figcaption>{esc(p.get("caption", ""))} <a href="/photo-credits/">Photo: {esc(author)}, '
+            f'{esc(p.get("license", ""))}</a></figcaption></figure>')
+
+
+# ---------- teams ----------
+def team_badge(ab):
+    c = TEAM_COLORS.get(ab, "#555555")
+    r, g, b = (int(c[i:i + 2], 16) for i in (1, 3, 5))
+    ink = "#0b1d33" if (0.299 * r + 0.587 * g + 0.114 * b) > 150 else "#ffffff"
+    return f'<span class="badge" style="background:{c};color:{ink}">{esc(ab)}</span>'
+
+
+def team_name(ab):
+    return LEAGUE.get("teams", {}).get(ab, {}).get("name", ab)
+
+
+def game_card(g):
+    ot = f' <span class="ot">{g["ending"]}</span>' if g.get("ending") in ("OT", "SO") else ""
+    win_a, win_h = g["as"] > g["hs"], g["hs"] > g["as"]
+    goals = "".join(
+        f'<li>{team_badge(x["team"])} <a href="{esc(x["clip"])}" target="_blank" rel="noopener">{esc(x["scorer"])}</a>'
+        f'<span class="meta"> {esc(x["period"] if x["period"] in ("OT", "SO") else ordinal(x["period"] or 0))} {esc(x["time"])}'
+        f'{" · PP" if x.get("strength") == "pp" else " · SH" if x.get("strength") == "sh" else ""}</span></li>'
+        if x.get("clip") else
+        f'<li>{team_badge(x["team"])} {esc(x["scorer"])}</li>'
+        for x in g.get("goals", []))
+    vids = "".join(
+        f'<a class="vid" href="{esc(u)}" target="_blank" rel="noopener">&#9654; {lbl}</a>'
+        for u, lbl in ((g.get("recap"), "Recap"), (g.get("condensed"), "Condensed game")) if u)
+    return (f'<article class="game" data-teams="{g["away"]} {g["home"]}">'
+            f'<div class="line{" won" if win_a else ""}">{team_badge(g["away"])}<span>{esc(team_name(g["away"]))}</span><b>{g["as"]}</b></div>'
+            f'<div class="line{" won" if win_h else ""}">{team_badge(g["home"])}<span>{esc(team_name(g["home"]))}</span><b>{g["hs"]}</b></div>'
+            f'<p class="meta">Final{ot}</p><div class="vids">{vids}</div>'
+            + (f'<details><summary>Goal highlights ({len(g.get("goals", []))})</summary><ul class="goals">{goals}</ul></details>' if goals else "")
+            + "</article>")
+
+
+def team_picker():
+    teams = LEAGUE.get("teams", {})
+    if not teams:
+        return ""
+    divs = {}
+    for ab, t in sorted(teams.items(), key=lambda kv: kv[1]["name"]):
+        divs.setdefault(t["division"], []).append(ab)
+    body = "".join(
+        f'<h3>{esc(d)}</h3><div class="picks">' + "".join(
+            f'<button type="button" data-team="{ab}">{team_badge(ab)}<span>{esc(teams[ab]["name"])}</span></button>' for ab in abs_)
+        + "</div>" for d, abs_ in sorted(divs.items()))
+    return ('<dialog id="teampick" class="teampick"><form method="dialog"><button class="x" aria-label="Close">&times;</button></form>'
+            '<h2>Choose your team</h2><p class="meta">We\'ll remember it on this device and put your team\'s scores and '
+            f'highlights first. Utah hockey stories stay right where they are.</p>{body}</dialog>')
+
+
+def highlights_strip(n=4):
+    finals = LEAGUE.get("finals", [])
+    if not finals:
+        return ""
+    last = finals[0]["date"]
+    games = [g for g in finals if g["date"] == last][:n]
+    return (f'<h2>Around the league · {short_date(last)}</h2><div class="games">'
+            + "".join(game_card(g) for g in games)
+            + '</div><p><a class="btn ghost" href="/highlights/">All scores and highlight videos &rarr;</a></p>')
+
+
+def highlights_page():
+    finals = LEAGUE.get("finals", [])
+    by_day = {}
+    for g in finals:
+        by_day.setdefault(g["date"], []).append(g)
+    days = "".join(f'<h2>{fmt_date(d)}</h2><div class="games">' + "".join(game_card(g) for g in gs) + "</div>"
+                   for d, gs in by_day.items())
+    if not days:
+        days = "<p>Highlights show up here the morning after games are played.</p>"
+    return ('<section class="wrap hub"><p class="kicker">NHL</p><h1>Scores &amp; highlights</h1>'
+            '<p class="lede">Every NHL game from the past week, with the official recap, the condensed game and a clip of '
+            'every goal. Videos play on NHL.com.</p>'
+            '<label class="onlymine"><input type="checkbox" id="onlymine"> Only show <span data-myteam-name>my team</span></label>'
+            f'{sponsor_strip()}{days}{ad_slot()}'
+            '<p class="note">Scores and video links come from the NHL\'s public data and refresh every morning. '
+            'Videos belong to the NHL.</p></section>')
 
 
 # ---------- money blocks ----------
@@ -165,6 +273,7 @@ def memories():
 
 def shortcodes(body):
     body = re.sub(r"\{\{affiliate:(\w+)\}\}", lambda m: affiliate_box(m.group(1)), body)
+    body = re.sub(r"\{\{photo:([\w-]+)\}\}", lambda m: figure(m.group(1)), body)
     for k, fn in {"ad": ad_slot, "newsletter": newsletter, "sponsor": sponsor_strip, "next_game": next_game_card, "memories": memories}.items():
         body = body.replace("{{" + k + "}}", fn())
     return body
@@ -178,7 +287,7 @@ def render(title, description, content, path, extra_head="", active=""):
                  f'?client={esc(SITE["adsense_client_id"])}" crossorigin="anonymous"></script>')
     nav = "".join(
         f'<a href="/{SECTIONS[k]["path"]}/"{" aria-current=page" if k == active else ""}>{SECTIONS[k]["title"]}</a>'
-        for k in NAV)
+        for k in NAV) + f'<a href="/highlights/"{" aria-current=page" if active == "highlights" else ""}>Highlights</a>'
     full_title = title if title == SITE["name"] else f"{title} | {SITE['name']}"
     out = TEMPLATE
     for k, v in {
@@ -186,7 +295,7 @@ def render(title, description, content, path, extra_head="", active=""):
         "{{canonical}}": SITE["url"] + path, "{{site_name}}": SITE["name"],
         "{{tagline}}": esc(SITE["tagline"]), "{{extra_head}}": head, "{{nav}}": nav,
         "{{content}}": content, "{{year}}": str(date.today().year),
-        "{{contact_email}}": SITE["contact_email"],
+        "{{contact_email}}": SITE["contact_email"], "{{team_picker}}": team_picker(),
     }.items():
         out = out.replace(k, v)
     return out
@@ -200,7 +309,9 @@ def write(rel, text):
 
 def card(a):
     sec = SECTIONS[a["section"]]["title"]
-    return (f'<a class="card s-{a["section"]}" href="{a["url"]}">'
+    img = a.get("image", "")
+    thumb = (f'<img class="thumb" src="/img/{img}-sm.jpg" alt="" loading="lazy">' if has_photo(img) else "")
+    return (f'<a class="card s-{a["section"]}{" has-img" if thumb else ""}" href="{a["url"]}">{thumb}'
             f'<span class="kicker">{esc(sec)} · {esc(a.get("category", "Guide"))}</span>'
             f'<h3>{esc(a["title"])}</h3><p>{esc(a.get("description", ""))}</p>'
             f'<span class="meta">Updated {fmt_date(a["updated"])}</span></a>')
@@ -316,6 +427,7 @@ def main():
             f'<p class="kicker"><a href="/{sec["path"]}/">{esc(sec["title"])}</a> · {esc(a.get("category", "Guide"))}</p>'
             f'<h1>{esc(a["title"])}</h1><p class="lede">{esc(a.get("description", ""))}</p>'
             f'<p class="meta">Updated {fmt_date(a["updated"])} · <a href="/disclosure/">How we make money</a></p>'
+            f'{figure(a.get("image", ""), "photo lead-photo", eager=True)}'
             f'{ad_slot()}<div class="prose">{shortcodes(a["body"])}</div>'
             f'{sponsor_strip() if "{{sponsor}}" not in a["body"] else ""}'
             '<p class="note">Hockey Network USA is an independent fan site. We are not affiliated with the NHL, '
@@ -331,7 +443,8 @@ def main():
         mine = [a for a in arts if a["section"] == key]
         panel = mammoth_panel() if key == "mammoth" else rinks_panel() if key == "rinks" else ""
         body = (f'<section class="wrap hub"><p class="kicker">Utah</p><h1>{esc(sec["title"])}</h1>'
-                f'<p class="lede">{esc(sec["blurb"])}</p>{panel}{sponsor_strip()}'
+                f'<p class="lede">{esc(sec["blurb"])}</p>{figure(SECTION_IMAGES.get(key, ""), "photo hub-photo", eager=True)}'
+                f'{panel}{sponsor_strip()}'
                 + (f'<h2>{"Reports and guides" if key == "mammoth" else "Guides"}</h2><div class="grid">'
                    + "".join(card(a) for a in mine) + "</div>" if mine else "")
                 + f"{ad_slot()}{newsletter()}</section>")
@@ -344,14 +457,18 @@ def main():
         f'<a class="tile s-{k}" href="/{SECTIONS[k]["path"]}/"><b>{SECTIONS[k]["title"]}</b><span>{SECTIONS[k]["blurb"]}</span></a>'
         for k in NAV)
     home = (
-        '<section class="hero"><div class="wrap"><div class="hero-text">'
+        f'<section class="hero{" has-photo" if has_photo("olympic-hockey-2002") else ""}"'
+        + (' style="--hero-img:url(/img/olympic-hockey-2002.jpg)"' if has_photo("olympic-hockey-2002") else "")
+        + '><div class="wrap"><div class="hero-text">'
         '<p class="kicker">Utah hockey</p>'
         '<h1>Everything on ice in the Beehive State.</h1>'
         "<p>From the old Salt Palace to the Delta Center, and from frozen ponds to Saturday-morning rec games. "
         "Mammoth reports every Monday, plus where to skate, how to get your kids started, and which leagues take "
         "beginners.</p>"
         f'</div>{next_game_card()}</div></section>'
-        f'<section class="wrap"><div class="tiles">{tiles}</div>{sponsor_strip()}'
+        f'<section class="wrap"><div class="tiles">{tiles}</div>'
+        '<section id="myteam" class="myteam" aria-live="polite"></section>'
+        f'{sponsor_strip()}{highlights_strip()}'
         + (f'<h2>Latest Mammoth report</h2><div class="grid">{card(reports[0])}</div>' if reports else "")
         + "".join(
             f'<a class="lane" href="{a["url"]}"><span class="kicker">Memory lane</span>'
@@ -360,6 +477,24 @@ def main():
         + '<h2>Start here</h2><div class="grid">' + "".join(card(a) for a in guides[:6]) + "</div>"
         f"{memories()}{ad_slot()}{newsletter()}</section>")
     write("index.html", render(SITE["name"], SITE["description"], home, "/"))
+    write("highlights/index.html", render("NHL scores and highlights", "Every NHL game from the past week with recap, "
+          "condensed game and goal highlight videos, filtered to your team.", highlights_page(), "/highlights/",
+          active="highlights"))
+    if LEAGUE_FILE.exists():
+        (OUT / "data").mkdir(exist_ok=True)
+        shutil.copy(LEAGUE_FILE, OUT / "data" / "league.json")
+    used = [k for k in PHOTOS if has_photo(k)]
+    if used:
+        rows = "".join(
+            f'<li><img src="/img/{k}-sm.jpg" alt="" loading="lazy"><div><b>{esc(PHOTOS[k].get("caption", ""))}</b><br>'
+            f'<a href="{esc(PHOTOS[k].get("page", ""))}" rel="noopener">{esc(PHOTOS[k].get("title", "").replace("File:", ""))}</a> '
+            f'by {esc(PHOTOS[k].get("author", ""))}, <a href="{esc(PHOTOS[k].get("license_url", ""))}" rel="noopener">'
+            f'{esc(PHOTOS[k].get("license", ""))}</a></div></li>' for k in used)
+        write("photo-credits/index.html", render(
+            "Photo credits", "The photographers behind the pictures on Hockey Network USA.",
+            '<article class="post"><h1>Photo credits</h1><p>Our photos come from Wikimedia Commons and are shared under '
+            'Creative Commons or public-domain licenses. Thank you to every photographer below.</p>'
+            f'<ul class="credits">{rows}</ul></article>', "/photo-credits/"))
 
     for p in (ROOT / "content" / "pages").glob("*.html"):
         text = p.read_text(encoding="utf-8")
@@ -373,7 +508,7 @@ def main():
     write("404.html", render("Page not found", "", '<section class="wrap hub"><h1>Off-side.</h1>'
           '<p>That page does not exist. Try the <a href="/">home page</a> or the <a href="/rinks/">rink list</a>.</p></section>', "/404"))
 
-    urls = ["/"] + [f'/{s["path"]}/' for s in SECTIONS.values()] + [a["url"] for a in arts] + \
+    urls = ["/", "/highlights/"] + [f'/{s["path"]}/' for s in SECTIONS.values()] + [a["url"] for a in arts] + \
            [f"/{p.stem}/" for p in (ROOT / "content" / "pages").glob("*.html")]
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           + "".join(f"  <url><loc>{SITE['url']}{u}</loc></url>\n" for u in urls) + "</urlset>\n")

@@ -11,6 +11,8 @@ Static site about Utah hockey: Utah Mammoth weekly reports and schedule, rinks, 
 - `build.py` – zero-dependency builder, writes `public/`
 - `scripts/update_mammoth.py` – pulls the NHL public API, saves data, writes the Monday weekly report
 - `.github/workflows/update.yml` – runs the updater and build every morning and commits the result
+- `scripts/update_league.py` – all 32 teams: standings, last 7 days of finals with recap/condensed/goal clip links, next 7 days → `data/league.json` (copied to `public/data/`; read by `static/team.js` for "choose your team" and `/highlights/`)
+- `data/photos.json` + `static/img/` – Wikimedia Commons photos (picked from the "Fetch photo candidates" workflow, prepared with `scripts/prepare_photos.py`); articles use `image:` front matter and `{{photo:key}}`; credits at `/photo-credits/`
 - `.github/workflows/traffic.yml` + `scripts/traffic_snapshot.py` – weekly Cloudflare traffic to `data/traffic.json` (secrets CF_API_TOKEN, CF_ZONE_ID)
 
 Build: `python3 build.py`. Host: Cloudflare Workers static assets (`wrangler.jsonc` serves `public/`, prebuilt and committed). Deploy command: `npx wrangler deploy`, no build command.
