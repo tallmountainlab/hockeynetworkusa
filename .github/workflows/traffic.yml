@@ -1,0 +1,29 @@
+name: Weekly traffic snapshot
+
+on:
+  schedule:
+    - cron: "0 14 * * 0"   # Sundays, 7 or 8 a.m. Utah time
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  traffic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Pull traffic from Cloudflare
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+        run: python3 scripts/traffic_snapshot.py
+      - name: Commit changes
+        run: |
+          git config user.name "hnusa-bot"
+          git config user.email "bot@hockeynetworkusa.com"
+          git add data/traffic.json 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "Weekly traffic snapshot" && git pull --rebase && git push)

@@ -1,0 +1,28 @@
+name: Daily Mammoth update
+
+on:
+  schedule:
+    - cron: "0 13 * * *"   # 6 or 7 a.m. Utah time, every day
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Pull schedule, results and standings
+        run: python3 scripts/update_mammoth.py
+      - name: Rebuild site
+        run: python3 build.py
+      - name: Commit changes
+        run: |
+          git config user.name "hnusa-bot"
+          git config user.email "bot@hockeynetworkusa.com"
+          git add -A
+          git diff --cached --quiet || (git commit -m "Daily Mammoth update" && git pull --rebase && git push)

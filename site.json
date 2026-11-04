@@ -1,0 +1,25 @@
+{
+  "name": "Hockey Network USA",
+  "short": "HNUSA",
+  "tagline": "Utah hockey, from the Delta Center to your local rink",
+  "description": "Independent Utah hockey coverage: Utah Mammoth weekly reports and schedule, plus youth and adult leagues, ice rinks and learn-to-skate programs across the state.",
+  "url": "https://hockeynetworkusa.com",
+  "language": "en",
+  "contact_email": "hello@hockeynetworkusa.com",
+  "team_abbrev": "UTA",
+  "team_name": "Utah Mammoth",
+
+  "_comment_monetization": "Armando fills these in. Leave a value empty and that block simply stays hidden on the site.",
+  "adsense_client_id": "",
+  "newsletter_form_action": "",
+  "affiliates": {
+    "tickets": {"label": "Find Utah Mammoth tickets", "url": ""},
+    "gear": {"label": "Shop beginner hockey gear", "url": ""},
+    "skates": {"label": "Compare hockey skates", "url": ""},
+    "sticks": {"label": "Shop hockey sticks", "url": ""},
+    "fan": {"label": "Shop Utah Mammoth fan gear", "url": ""}
+  },
+
+  "_comment_sponsors": "Local sponsors. Each one shows on the home page, the Mammoth page and every weekly report. Example: {\"name\": \"Granny's Drive Inn\", \"url\": \"https://example.com\", \"blurb\": \"Burgers and shakes after the game.\"}",
+  "sponsors": []
+}
