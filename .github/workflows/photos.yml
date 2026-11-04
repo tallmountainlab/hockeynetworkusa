@@ -17,7 +17,7 @@ jobs:
       - run: |
           git config user.name "photo-bot"
           git config user.email "actions@users.noreply.github.com"
-          git checkout -B photo-candidates
+          git checkout -B photo-candidates-${{ github.run_id }}
           git add photos
           git commit -m "Photo candidates from Wikimedia Commons" || exit 0
-          git push -f origin photo-candidates
+          git push origin photo-candidates-${{ github.run_id }}
