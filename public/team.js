@@ -119,11 +119,11 @@
       }).join("") + "</ul>" : "") + "</div></div>", "wide");
   }
 
-  function newsPanel(t) {
+  function newsPanel(t, all) {
     var items = N && N.teams && N.teams[team];
     if (!items || !items.length) return "";
     var p = photoFor(team);
-    return panel(esc(short(team)) + " news", '<ul class="newslist">' + items.slice(0, 7).map(function (x, i) {
+    return panel(esc(short(team)) + " news", '<ul class="newslist">' + items.slice(0, all ? 20 : 7).map(function (x, i) {
       return '<li' + (i === 0 ? ' class="lead"' : "") + '><a href="' + esc(x.link) + '" target="_blank" rel="noopener">' +
         (i === 0 && p ? '<img src="' + esc(p.sm) + '" alt="" loading="lazy">' : "") +
         "<b>" + esc(x.title) + '</b><span class="meta">' + esc(x.source) + (x.date ? " · " + ago(x.date) : "") + "</span></a></li>";
@@ -204,6 +204,35 @@
       (team === "UTA" ? ' · <a href="/mammoth/">Mammoth schedule &amp; weekly reports &rarr;</a>' : "") + "</p>";
   }
 
+  /* ---------- team pages: /news/, /stats/, /standings/ ---------- */
+  function renderPages() {
+    var t = T(team);
+    var ph = document.querySelector(".pagehead[data-teamphoto]"), p = photoFor(team);
+    if (ph && p) { ph.style.setProperty("--hero-img", "url(" + p.src + ")"); ph.classList.add("has-photo");
+      var cr = ph.querySelector(".credit"); if (cr) cr.textContent = "Photo: " + p.credit; }
+    if (!t) return;
+    var el = document.getElementById("newspage");
+    if (el) {
+      var items = (N && N.teams && N.teams[team]) || [], lg = (N && N.league) || [];
+      el.innerHTML = (items.length ? newsPanel(t, true) : "") +
+        (lg.length ? panel("Around the NHL", '<ul class="newslist">' + lg.map(function (x) {
+          return '<li><a href="' + esc(x.link) + '" target="_blank" rel="noopener"><b>' + esc(x.title) + '</b><span class="meta">' + esc(x.source) +
+            (x.date ? " · " + ago(x.date) : "") + "</span></a></li>";
+        }).join("") + "</ul>", "wide") : "");
+    }
+    el = document.getElementById("statspage");
+    if (el) {
+      var lead = S && S.leaders && S.leaders.points ? panel("NHL leaders", [["points", "Points"], ["goals", "Goals"], ["assists", "Assists"]].map(function (c) {
+        return '<span class="kicker">' + c[1] + '</span><ol class="leaders">' + (S.leaders[c[0]] || []).map(function (q) {
+          return "<li" + (q.team === team ? ' class="is-mine"' : "") + ">" + badge(q.team, "xs") + " <span>" + esc(q.name) + "</span><b>" + q.value + "</b></li>";
+        }).join("") + "</ol>";
+      }).join("")) : "";
+      el.innerHTML = leadersPanel() + lead + schedulePanel();
+    }
+    el = document.getElementById("standpage");
+    if (el) el.innerHTML = standingsPanel(t);
+  }
+
   /* ---------- side column: the rest of the league ---------- */
   function renderSide() {
     if (!L) return;
@@ -282,15 +311,16 @@
       return;
     }
     var s = e.target.closest && e.target.closest("button[data-stand]");
-    if (s) { standView = s.getAttribute("data-stand"); renderZone(); bind(); }
+    if (s) { standView = s.getAttribute("data-stand"); renderZone(); renderPages(); bind(); }
   });
 
   function bind() { document.querySelectorAll("[data-open-picker]").forEach(function (b) { b.onclick = open; }); }
   function apply() {
     paint();
     document.querySelectorAll("[data-myteam-label]").forEach(function (e) { e.textContent = team; });
+    document.querySelectorAll("[data-myteam-name]").forEach(function (e) { e.textContent = name(team); });
     if (dlg) dlg.querySelectorAll("button[data-team]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-team") === team); });
-    if (L) { renderHero(); renderZone(); renderSide(); }
+    if (L) { renderHero(); renderZone(); renderSide(); renderPages(); }
     filterHighlights();
     bind();
   }
@@ -308,7 +338,7 @@
 
   function get(u, empty) { return fetch(u).then(function (r) { return r.ok ? r.json() : empty; }).catch(function () { return empty; }); }
   apply();
-  if (document.getElementById("myteam") || document.getElementById("thero")) {
+  if (document.querySelector("#myteam, #thero, .teampage, [data-myteam-name]")) {
     Promise.all([get("/data/league.json", null), get("/data/videos.json", {videos: []}), get("/data/stats.json", null), get("/data/news.json", null)])
       .then(function (res) { L = res[0]; V = (res[1] || {}).videos || []; S = res[2]; N = res[3]; if (L) apply(); });
   }

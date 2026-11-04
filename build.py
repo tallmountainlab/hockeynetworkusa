@@ -286,7 +286,7 @@ def highlights_strip(n=4):
         return ""
     last = finals[0]["date"]
     games = [g for g in finals if g["date"] == last][:n]
-    return (f'<h2>Around the league · {short_date(last)}</h2><div class="games">'
+    return (f'<h2 class="band">Around the league · {short_date(last)}</h2><div class="games">'
             + "".join(game_card(g) for g in games)
             + '</div><p><a class="btn ghost" href="/highlights/">All scores and highlight videos &rarr;</a></p>')
 
@@ -415,9 +415,11 @@ def render(title, description, content, path, extra_head="", active=""):
     if SITE.get("adsense_client_id"):
         head += ('<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
                  f'?client={esc(SITE["adsense_client_id"])}" crossorigin="anonymous"></script>')
-    nav = "".join(
-        f'<a href="/{SECTIONS[k]["path"]}/"{" aria-current=page" if k == active else ""}>{SECTIONS[k]["title"]}</a>'
-        for k in NAV) + f'<a href="/highlights/"{" aria-current=page" if active == "highlights" else ""}>Highlights</a>'
+    def nl(href, label, key, cls=""):
+        return f'<a href="{href}"{" aria-current=page" if key == active else ""}{f" class={cls}" if cls else ""}>{label}</a>'
+    nav = ("".join(nl(f'/{SECTIONS[k]["path"]}/', SECTIONS[k]["title"], k, "utah-only") for k in NAV)
+           + nl("/news/", "News", "news", "other-only") + nl("/stats/", "Stats", "stats", "other-only")
+           + nl("/standings/", "Standings", "standings") + nl("/highlights/", "Highlights", "highlights"))
     full_title = title if title == SITE["name"] else f"{title} | {SITE['name']}"
     out = TEMPLATE
     for k, v in {
@@ -607,16 +609,32 @@ def main():
         '<div class="teamzone"><div id="myteam" class="myteam" aria-live="polite"></div>'
         '<aside class="tz-side" id="leagueside"><div id="tonight"></div><div id="mostviewed"></div>'
         f'{side_scores()}<div id="leaguenews"></div><div id="leagueleaders"></div></aside></div>'
-        f'<h2 class="band">Utah hockey</h2><div class="ptiles">{tiles}</div>'
+        f'<div class="utah-only"><h2 class="band">Utah hockey</h2><div class="ptiles">{tiles}</div></div>'
+        f'<div class="other-only">{highlights_strip(6)}</div>'
         f'{sponsor_strip()}{gallery()}'
+        + '<div class="utah-only">'
         + (f'<h2>Latest Mammoth report</h2><div class="grid">{card(reports[0])}</div>' if reports else "")
         + "".join(
             f'<a class="lane" href="{a["url"]}"><span class="kicker">Memory lane</span>'
             f'<h2>{esc(a["title"])}</h2><p>{esc(a.get("description", ""))}</p><span class="more-link">Read the story &rarr;</span></a>'
             for a in lane[:1])
         + '<h2>Start here</h2><div class="grid">' + "".join(card(a) for a in guides[:6]) + "</div>"
-        f"{memories()}{ad_slot()}{newsletter()}</section>")
+        f"{memories()}</div>"
+        '<aside class="other-only utah-strip"><span class="kicker">Live in Utah?</span><p>We also cover local hockey: '
+        + " · ".join(f'<a href="/{SECTIONS[k]["path"]}/">{SECTIONS[k]["title"]}</a>' for k in NAV)
+        + f'</p></aside>{ad_slot()}{newsletter()}</section>')
     write("index.html", render(SITE["name"], SITE["description"], home, "/"))
+    for slug, title, lede, box in (
+            ("news", "news", "The latest headlines about your team from around the web, plus league news. "
+             "Every headline links to the original story.", "newspage"),
+            ("stats", "stats", "Top scorers and goalies for your team, and the NHL scoring leaders. Updated three times a day.", "statspage"),
+            ("standings", "standings", "Division, conference and league standings, with your team highlighted. "
+             "Updated three times a day.", "standpage")):
+        head = pagehead("Your team", f'<span data-myteam-name>Utah Mammoth</span> {title}', lede, "team-UTA")
+        head = head.replace('<header class="pagehead', '<header data-teamphoto class="pagehead', 1)
+        write(f"{slug}/index.html", render(f"NHL {title} for your team", lede, head +
+              f'<section class="wrap hub"><div id="{box}" class="myteam teampage" aria-live="polite"></div>'
+              f'{ad_slot()}</section>', f"/{slug}/", active=slug))
     write("highlights/index.html", render("NHL scores and highlights", "Every NHL game from the past week with recap, "
           "condensed game and goal highlight videos, filtered to your team.", highlights_page(), "/highlights/",
           active="highlights"))
@@ -650,7 +668,7 @@ def main():
     write("404.html", render("Page not found", "", '<section class="wrap hub"><h1>Off-side.</h1>'
           '<p>That page does not exist. Try the <a href="/">home page</a> or the <a href="/rinks/">rink list</a>.</p></section>', "/404"))
 
-    urls = ["/", "/highlights/"] + [f'/{s["path"]}/' for s in SECTIONS.values()] + [a["url"] for a in arts] + \
+    urls = ["/", "/highlights/", "/standings/", "/stats/", "/news/"] + [f'/{s["path"]}/' for s in SECTIONS.values()] + [a["url"] for a in arts] + \
            [f"/{p.stem}/" for p in (ROOT / "content" / "pages").glob("*.html")]
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           + "".join(f"  <url><loc>{SITE['url']}{u}</loc></url>\n" for u in urls) + "</urlset>\n")

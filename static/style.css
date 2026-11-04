@@ -284,7 +284,7 @@ h2.band::after{content:"";flex:1;height:8px;background:linear-gradient(180deg,va
 .newslist a{display:flex;flex-direction:column;gap:2px;padding:10px 0;text-decoration:none;color:var(--ink)}
 .newslist a:hover b{color:var(--ice);text-decoration:underline}
 .newslist b{font-weight:600;line-height:1.35}
-.newslist li.lead{grid-row:span 3}
+.newslist li.lead{grid-row:span 4}
 .newslist li.lead img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;margin-bottom:6px}
 .newslist li.lead b{font:700 1.5rem/1.15 "Barlow Condensed",sans-serif;text-transform:none}
 .small{font-size:.78rem}
@@ -319,7 +319,7 @@ table.stand td:nth-child(2){white-space:nowrap}
 .side-news a:hover{color:var(--ice);text-decoration:underline}
 .leaders{counter-reset:l;margin:4px 0 10px}
 .leaders li{display:flex;align-items:center;gap:6px;padding:4px 0;font-size:.88rem;border-bottom:1px solid var(--line)}
-.leaders li span{flex:1}
+.leaders li>span:not(.badge){flex:1}
 .side-box .kicker{display:block;margin-top:8px}
 /* photo tiles */
 .ptiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0 24px}
@@ -344,3 +344,13 @@ table.stand td:nth-child(2){white-space:nowrap}
 .game{border-top:5px solid var(--tc1)}
 .game.is-mine{border-color:var(--tc2);box-shadow:0 0 0 2px var(--tc2) inset}
 .hub{padding-top:28px}
+
+/* Utah-only blocks show for Mammoth fans and visitors who haven't picked; other teams get league content instead */
+.other-only{display:none}
+html[data-team]:not([data-team="UTA"]) .utah-only{display:none}
+html[data-team]:not([data-team="UTA"]) .other-only{display:block}
+.utah-strip{margin:28px 0;padding:16px 18px;border-radius:14px;background:var(--surface);border-left:6px solid var(--tc2);box-shadow:0 2px 0 var(--line)}
+.utah-strip p{margin:4px 0 0}
+html[data-team]:not([data-team="UTA"]) nav a.other-only{display:inline-block}
+html[data-team]:not([data-team="UTA"]) nav a.utah-only{display:none}
+.teampage{margin-top:8px}
