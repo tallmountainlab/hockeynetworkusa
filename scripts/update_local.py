@@ -17,7 +17,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "local.json"
-OVERPASS = "https://overpass-api.de/api/interpreter"
+ENDPOINTS = ["https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter",
+             "https://overpass.kumi.systems/api/interpreter"]
+BUDGET_S = 20 * 60  # stop after 20 minutes and keep what we have
 RADIUS_KM = 45
 MAX_RINKS = 40
 
@@ -48,11 +50,11 @@ def km(a, b, c, d):
     return 12742 * math.asin(math.sqrt(h))
 
 
-def rinks(lat, lon):
-    q = (f'[out:json][timeout:90];(nwr["leisure"="ice_rink"](around:{RADIUS_KM * 1000},{lat},{lon}););out center tags;')
-    req = urllib.request.Request(OVERPASS, data=urllib.parse.urlencode({"data": q}).encode(),
+def rinks(lat, lon, endpoint):
+    q = (f'[out:json][timeout:50];(nwr["leisure"="ice_rink"](around:{RADIUS_KM * 1000},{lat},{lon}););out center tags;')
+    req = urllib.request.Request(endpoint, data=urllib.parse.urlencode({"data": q}).encode(),
                                  headers={"User-Agent": "hockeynetworkusa.com local rinks updater"})
-    with urllib.request.urlopen(req, timeout=120) as r:
+    with urllib.request.urlopen(req, timeout=60) as r:
         els = json.loads(r.read().decode("utf-8")).get("elements", [])
     out, seen = [], set()
     for e in els:
@@ -83,20 +85,24 @@ def rinks(lat, lon):
 def main():
     old = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
     cities = dict(old.get("cities", {}))
-    ok = 0
+    ok, start, n = 0, time.time(), 0
     for ab, (area, lat, lon, country) in CITIES.items():
         entry = {"area": area, "country": country, "lat": lat, "lon": lon, "rinks": cities.get(ab, {}).get("rinks", [])}
-        for attempt in range(3):
+        for attempt in range(len(ENDPOINTS)):
+            if time.time() - start > BUDGET_S:
+                break
+            ep = ENDPOINTS[(n + attempt) % len(ENDPOINTS)]
             try:
-                entry["rinks"] = rinks(lat, lon)
+                entry["rinks"] = rinks(lat, lon, ep)
                 ok += 1
                 break
             except Exception as e:
-                print(f"{ab} attempt {attempt + 1} failed: {e}")
-                time.sleep(20)
+                print(f"{ab} via {ep} failed: {e}", flush=True)
+                time.sleep(5)
+        n += 1
         cities[ab] = entry
-        print(ab, len(entry["rinks"]), "rinks")
-        time.sleep(3)
+        print(ab, len(entry["rinks"]), "rinks", flush=True)
+        time.sleep(2)
     if not ok:
         print("Overpass unavailable, keeping existing file")
         return 0

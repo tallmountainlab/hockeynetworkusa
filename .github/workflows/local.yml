@@ -17,7 +17,8 @@ jobs:
         with:
           python-version: "3.12"
       - name: Pull ice rinks near every NHL city from OpenStreetMap
-        run: python3 scripts/update_local.py
+        run: python3 -u scripts/update_local.py
+        timeout-minutes: 25
       - name: Rebuild site
         run: python3 build.py
       - name: Commit changes
