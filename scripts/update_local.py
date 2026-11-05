@@ -51,10 +51,12 @@ def km(a, b, c, d):
 
 
 def rinks(lat, lon, endpoint):
-    q = (f'[out:json][timeout:50];(nwr["leisure"="ice_rink"](around:{RADIUS_KM * 1000},{lat},{lon}););out center tags;')
+    dy, dx = RADIUS_KM / 111.0, RADIUS_KM / (111.0 * math.cos(math.radians(lat)))
+    bbox = f"{lat - dy:.4f},{lon - dx:.4f},{lat + dy:.4f},{lon + dx:.4f}"
+    q = f'[out:json][timeout:80][bbox:{bbox}];nwr["leisure"="ice_rink"];out center tags;'
     req = urllib.request.Request(endpoint, data=urllib.parse.urlencode({"data": q}).encode(),
                                  headers={"User-Agent": "hockeynetworkusa.com local rinks updater"})
-    with urllib.request.urlopen(req, timeout=60) as r:
+    with urllib.request.urlopen(req, timeout=100) as r:
         els = json.loads(r.read().decode("utf-8")).get("elements", [])
     out, seen = [], set()
     for e in els:
@@ -62,8 +64,12 @@ def rinks(lat, lon, endpoint):
         name = (t.get("name") or "").strip()
         if not name or name.lower() in seen:
             continue
+        if (t.get("sport") or "").strip() == "curling" or "curling" in name.lower():
+            continue  # curling sheets are tagged as ice rinks too
         y, x = (e.get("lat"), e.get("lon")) if e["type"] == "node" else (e.get("center", {}).get("lat"), e.get("center", {}).get("lon"))
         if y is None:
+            continue
+        if km(lat, lon, y, x) > RADIUS_KM:
             continue
         indoor = (t.get("indoor") == "yes" or t.get("covered") == "yes" or "building" in t
                   or e["type"] in ("way", "relation") and t.get("building") is not None)
@@ -85,15 +91,22 @@ def rinks(lat, lon, endpoint):
 def main():
     old = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
     cities = dict(old.get("cities", {}))
-    ok, start, n = 0, time.time(), 0
-    for ab, (area, lat, lon, country) in CITIES.items():
-        entry = {"area": area, "country": country, "lat": lat, "lon": lon, "rinks": cities.get(ab, {}).get("rinks", [])}
+    ok, start, n = 0, time.time(), 0  # noqa
+    order = sorted(CITIES, key=lambda ab: (len(cities.get(ab, {}).get("rinks", [])) > 0, cities.get(ab, {}).get("checked", "")))
+    for ab in order:
+        if time.time() - start > BUDGET_S:
+            cities.setdefault(ab, {"area": CITIES[ab][0], "country": CITIES[ab][3], "lat": CITIES[ab][1], "lon": CITIES[ab][2], "rinks": []})
+            continue
+        area, lat, lon, country = CITIES[ab]
+        prev = cities.get(ab, {})
+        entry = {"area": area, "country": country, "lat": lat, "lon": lon, "rinks": prev.get("rinks", []), "checked": prev.get("checked", "")}
         for attempt in range(len(ENDPOINTS)):
             if time.time() - start > BUDGET_S:
                 break
             ep = ENDPOINTS[(n + attempt) % len(ENDPOINTS)]
             try:
                 entry["rinks"] = rinks(lat, lon, ep)
+                entry["checked"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
                 ok += 1
                 break
             except Exception as e:

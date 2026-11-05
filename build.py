@@ -38,6 +38,8 @@ PHOTOS_FILE = ROOT / "data" / "photos.json"
 PHOTOS = json.loads(PHOTOS_FILE.read_text(encoding="utf-8")) if PHOTOS_FILE.exists() else {}
 LEAGUE_FILE = ROOT / "data" / "league.json"
 LEAGUE = json.loads(LEAGUE_FILE.read_text(encoding="utf-8")) if LEAGUE_FILE.exists() else {"teams": {}, "finals": [], "upcoming": []}
+LOCAL_FILE = ROOT / "data" / "local.json"
+LOCAL = json.loads(LOCAL_FILE.read_text(encoding="utf-8")).get("cities", {}) if LOCAL_FILE.exists() else {}
 VIDEOS_FILE = ROOT / "data" / "videos.json"
 VIDEOS = json.loads(VIDEOS_FILE.read_text(encoding="utf-8")).get("videos", []) if VIDEOS_FILE.exists() else []
 TEAM_THEMES = {  # primary, secondary
@@ -219,13 +221,17 @@ def theme_vars(t):
     return ";".join(f"--{k}:{v}" for k, v in t.items())
 
 
-def theme_script():
+def theme_script(page_team=""):
+    """Sets the team colors before paint. A team's own local page always wears
+    that team's colors; every other page wears the visitor's team."""
     themes = {ab: team_theme(ab) for ab in TEAM_THEMES}
+    areas = {ab: c.get("area", "") for ab, c in LOCAL.items()}
     return ("<script>(function(){var T=" + json.dumps(themes, separators=(",", ":")) + ",t;"
             "try{t=localStorage.getItem('hnusa-team')}catch(e){}"
-            "if(t&&T[t]){var r=document.documentElement,c=T[t];r.dataset.team=t;"
+            + (f"t='{page_team}';" if page_team else "")
+            + "if(t&&T[t]){var r=document.documentElement,c=T[t];r.dataset.team=t;"
             "for(var k in c)r.style.setProperty('--'+k,c[k]);}"
-            "window.HNUSA_THEMES=T;window.HNUSA_PHOTOS=" + json.dumps(team_photos(), separators=(",", ":")) + ";})();</script>")
+            "window.HNUSA_THEMES=T;window.HNUSA_AREAS=" + json.dumps(areas, ensure_ascii=False, separators=(",", ":")) + ";window.HNUSA_PHOTOS=" + json.dumps(team_photos(), separators=(",", ":")) + ";})();</script>")
 
 
 def video_for_game(g):
@@ -410,14 +416,15 @@ def shortcodes(body):
 
 
 # ---------- page shell ----------
-def render(title, description, content, path, extra_head="", active=""):
-    head = theme_script() + extra_head
+def render(title, description, content, path, extra_head="", active="", page_team=""):
+    head = theme_script(page_team) + extra_head
     if SITE.get("adsense_client_id"):
         head += ('<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
                  f'?client={esc(SITE["adsense_client_id"])}" crossorigin="anonymous"></script>')
     def nl(href, label, key, cls=""):
         return f'<a href="{href}"{" aria-current=page" if key == active else ""}{f" class={cls}" if cls else ""}>{label}</a>'
     nav = ("".join(nl(f'/{SECTIONS[k]["path"]}/', SECTIONS[k]["title"], k, "utah-only") for k in NAV)
+           + '<a href="/local/" class="other-only" data-local-link' + (" aria-current=page" if active == "local" else "") + ">Local hockey</a>"
            + nl("/news/", "News", "news", "other-only") + nl("/stats/", "Stats", "stats", "other-only")
            + nl("/standings/", "Standings", "standings") + nl("/highlights/", "Highlights", "highlights"))
     full_title = title if title == SITE["name"] else f"{title} | {SITE['name']}"
@@ -428,6 +435,7 @@ def render(title, description, content, path, extra_head="", active=""):
         "{{tagline}}": esc(SITE["tagline"]), "{{extra_head}}": head, "{{nav}}": nav,
         "{{content}}": content, "{{year}}": str(date.today().year),
         "{{contact_email}}": SITE["contact_email"], "{{team_picker}}": team_picker(),
+        "{{html_attrs}}": f' data-page-team="{page_team}"' if page_team else "",
     }.items():
         out = out.replace(k, v)
     return out
@@ -535,6 +543,91 @@ def rinks_panel():
     return "".join(out)
 
 
+# ---------- local hockey pages, one per NHL city ----------
+def local_page(ab):
+    c = LOCAL[ab]
+    t = LEAGUE.get("teams", {}).get(ab, {"name": ab, "common": ab})
+    area, us = c["area"], c.get("country") == "US"
+    unit = (lambda k: f"{k * 0.621:.0f} mi") if us else (lambda k: f"{k:.0f} km")
+    rinks = [r for r in c.get("rinks", []) if "curling" not in r["name"].lower()]
+    tiles = "".join(
+        f'<a class="ptile" href="#{h}"' + (f' style="--img:url(/img/{img}-sm.jpg)"' if has_photo(img) else "")
+        + f'><b>{lbl}</b><span>{sub}</span></a>'
+        for h, lbl, sub, img in (("rinks", "Ice rinks", f"{len(rinks)} rinks around {area}", "zamboni"),
+                                 ("youth", "Youth hockey", "How kids get started", "youth-game"),
+                                 ("adult", "Adult hockey", "Leagues, drop-in and stick-and-puck", "rec-league"),
+                                 ("skate", "Learn to skate", "Lessons for every age", "holiday-rink")))
+    cards = []
+    for r in rinks:
+        tags = [r["kind"]] if r.get("kind") else []
+        tags += (["hockey"] if r.get("hockey") else []) + (["skating"] if r.get("skating") else [])
+        where = " · ".join(x for x in (r.get("street"), r.get("city")) if x)
+        pills = "".join(f"<li>{esc(x.capitalize())}</li>" for x in tags)
+        site = (f'<a href="{esc(r["website"])}" rel="noopener nofollow" target="_blank">Website &rarr;</a> · ' if r.get("website") else "")
+        cards.append(f'<article class="rink" data-tags="{" ".join(tags) or "unknown"}"><h3>{esc(r["name"])}</h3>'
+                     f'<p class="meta">{esc(where) + " · " if where else ""}{unit(r["km"])} from the arena</p>'
+                     + (f'<ul class="offers">{pills}</ul>' if pills else "")
+                     + f'<p>{site}<a href="https://www.openstreetmap.org/?mlat={r["lat"]}&amp;mlon={r["lon"]}#map=16/{r["lat"]}/{r["lon"]}" '
+                       'rel="noopener" target="_blank">Map</a></p></article>')
+    rink_html = (
+        '<div class="filters" role="group" aria-label="Filter rinks"><button data-f="all" aria-pressed="true">All</button>'
+        '<button data-f="indoor" aria-pressed="false">Indoor</button><button data-f="outdoor" aria-pressed="false">Outdoor</button>'
+        '<button data-f="hockey" aria-pressed="false">Hockey</button></div>'
+        f'<div class="rinks">{"".join(cards)}</div>'
+        '<p class="meta">Rink list from <a href="https://www.openstreetmap.org/copyright" rel="noopener">OpenStreetMap contributors</a> '
+        '(ODbL), refreshed weekly. Hours and programs change, so check with the rink before you go. '
+        f'Missing a rink? <a href="mailto:{SITE["contact_email"]}?subject=Rink%20near%20{esc(area)}">Tell us</a>.</p>'
+        "<script>document.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{"
+        "document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed',x===b));"
+        "const f=b.dataset.f;document.querySelectorAll('.rink').forEach(r=>{"
+        "r.hidden=f!=='all'&&!r.dataset.tags.split(' ').includes(f)})});</script>"
+        if rinks else "<p>We're still gathering the rinks for this area. Check back next week.</p>")
+    if us:
+        youth = ("<p>Almost every hockey player you've ever cheered for started the same way: wobbly skates, a helmet "
+                 "two sizes too big and a parent holding a coffee by the glass. Here's where that starts around "
+                 f"{esc(area)}.</p><ul>"
+                 '<li><b>NHL/NHLPA Learn to Play:</b> beginner programs run with the NHL teams, gear often included. '
+                 '<a href="https://learntoplay.nhl.com/about" rel="noopener" target="_blank">Find your team\'s program</a></li>'
+                 '<li><b>USA Hockey:</b> the national governing body\'s guide for new hockey families, with local associations. '
+                 '<a href="https://www.usahockey.com/newparents" rel="noopener" target="_blank">New to hockey</a></li>'
+                 "<li><b>Your local rink:</b> most rinks above run their own learn-to-play and in-house leagues.</li></ul>")
+        adult = ('<p>It is never too late. Plenty of people lace up for the first time in their 30s and 40s, and beer league '
+                 "hockey has a level for everyone.</p><ul><li><b>Rinks:</b> most rinks on this list run adult leagues, drop-in "
+                 "hockey and stick-and-puck sessions. Look for those words on their sites.</li>"
+                 '<li><b>USA Hockey:</b> adult players register here for insurance and sanctioned leagues. '
+                 '<a href="https://www.usahockey.com/playersandparents" rel="noopener" target="_blank">Players and parents</a></li></ul>')
+        skate = ('<p>Everyone starts on the boards. Learn to Skate USA classes run at rinks across the country, for kids '
+                 'and adults, and they\'re the fastest way to get comfortable on the ice.</p><ul>'
+                 '<li><a href="https://learntoskateusa.com/getstartediceskating" rel="noopener" target="_blank">Learn to Skate USA: get started</a></li>'
+                 "<li>Public skate sessions at the rinks above are the cheapest way to practice between lessons.</li></ul>")
+    else:
+        youth = ("<p>In Canada the first step usually has a name: First Shift, the NHL/NHLPA program that gets kids "
+                 "head-to-toe gear and a few sessions on the ice. After that, it's your local minor hockey association.</p><ul>"
+                 '<li><a href="https://www.nhl.com/news/nhl-nhlpa-partner-with-first-shift-program-310612474" rel="noopener" target="_blank">NHL/NHLPA First Shift</a></li>'
+                 '<li><a href="https://www.hockeycanada.ca/" rel="noopener" target="_blank">Hockey Canada</a> lists provincial branches and minor associations.</li>'
+                 "<li>Most rinks above also run learn-to-play and house leagues.</li></ul>")
+        adult = ("<p>Rec hockey is a way of life up here, from 6 a.m. weekday skates to Sunday night beer league.</p><ul>"
+                 "<li><b>Rinks:</b> most rinks on this list run adult leagues, shinny and drop-in hockey.</li>"
+                 "<li><b>Outdoor rinks:</b> when it's cold enough, the outdoor rinks on this list are where pickup shinny lives.</li></ul>")
+        skate = ('<p>Skate Canada\'s CanSkate program is how most Canadians learned, and adult classes are easy to find too.</p><ul>'
+                 '<li><a href="https://skatecanada.ca/" rel="noopener" target="_blank">Skate Canada</a> lists clubs and CanSkate programs.</li>'
+                 "<li>Public skating at the rinks above is the cheapest way to practice.</li></ul>")
+    utah = ('<aside class="utah-strip"><span class="kicker">More for Utah</span><p>We keep a hand-checked Utah guide: '
+            + " · ".join(f'<a href="/{SECTIONS[k]["path"]}/">{SECTIONS[k]["title"]}</a>' for k in NAV) + "</p></aside>"
+            if ab == "UTA" else "")
+    lede = f"Where to skate, play and learn the game around {esc(area)}, home of the {esc(t['name'])}."
+    head = pagehead("Local hockey", f"Hockey in {esc(area)}", lede, f"team-{ab}")
+    body = (head + f'<section class="wrap hub">{utah}<div class="ptiles">{tiles}</div>'
+            f'<h2 class="band" id="rinks">Ice rinks around {esc(area)}</h2>{rink_html}'
+            f'<h2 class="band" id="youth">Youth hockey</h2><div class="prose">{youth}</div>'
+            f'<h2 class="band" id="adult">Adult hockey</h2><div class="prose">{adult}</div>'
+            f'<h2 class="band" id="skate">Learn to skate</h2><div class="prose">{skate}</div>'
+            f'<p class="mt-foot"><a href="/">{esc(t["name"])} scores, news and stats &rarr;</a></p>'
+            f'{sponsor_strip()}{ad_slot()}{newsletter()}</section>')
+    return render(f"Hockey in {area}: rinks, youth and adult hockey", lede, body, f"/local/{ab.lower()}/",
+                  active="local", page_team=ab)
+
+
 # ---------- build ----------
 def main():
     if OUT.exists():
@@ -610,7 +703,14 @@ def main():
         '<aside class="tz-side" id="leagueside"><div id="tonight"></div><div id="mostviewed"></div>'
         f'{side_scores()}<div id="leaguenews"></div><div id="leagueleaders"></div></aside></div>'
         f'<div class="utah-only"><h2 class="band">Utah hockey</h2><div class="ptiles">{tiles}</div></div>'
-        f'<div class="other-only">{highlights_strip(6)}</div>'
+        '<div class="other-only"><h2 class="band">Hockey near <span data-local-area>you</span></h2><div class="ptiles">'
+        + "".join(f'<a class="ptile" data-local-link data-hash="#{h}" href="/local/"'
+                  + (f' style="--img:url(/img/{img}-sm.jpg)"' if has_photo(img) else "") + f'><b>{lbl}</b><span>{sub}</span></a>'
+                  for h, lbl, sub, img in (("rinks", "Ice rinks", "Every rink around town", "zamboni"),
+                                           ("youth", "Youth hockey", "How kids get started", "youth-game"),
+                                           ("adult", "Adult hockey", "Leagues and drop-in", "rec-league"),
+                                           ("skate", "Learn to skate", "Lessons for every age", "holiday-rink")))
+        + f'</div>{highlights_strip(6)}</div>'
         f'{sponsor_strip()}{gallery()}'
         + '<div class="utah-only">'
         + (f'<h2>Latest Mammoth report</h2><div class="grid">{card(reports[0])}</div>' if reports else "")
@@ -624,6 +724,17 @@ def main():
         + " · ".join(f'<a href="/{SECTIONS[k]["path"]}/">{SECTIONS[k]["title"]}</a>' for k in NAV)
         + f'</p></aside>{ad_slot()}{newsletter()}</section>')
     write("index.html", render(SITE["name"], SITE["description"], home, "/"))
+    for ab in LOCAL:
+        write(f"local/{ab.lower()}/index.html", local_page(ab))
+    if LOCAL:
+        teams = LEAGUE.get("teams", {})
+        links = "".join(f'<a class="pick-city" href="/local/{ab.lower()}/">{team_badge(ab)}<span><b>{esc(c["area"])}</b>'
+                        f'<span class="meta">{esc(teams.get(ab, {}).get("name", ab))} · {len(c.get("rinks", []))} rinks</span></span></a>'
+                        for ab, c in sorted(LOCAL.items(), key=lambda kv: kv[1]["area"].replace("the ", "")))
+        write("local/index.html", render("Local hockey in every NHL city", "Ice rinks, youth hockey, adult leagues and learn to "
+              "skate around all 32 NHL cities.", pagehead("Local hockey", "Hockey near you", "Pick your city for ice rinks, "
+              "youth hockey, adult leagues and learn to skate.", "action-outdoor") + f'<section class="wrap hub"><div class="cities">{links}</div></section>',
+              "/local/", active="local"))
     for slug, title, lede, box in (
             ("news", "news", "The latest headlines about your team from around the web, plus league news. "
              "Every headline links to the original story.", "newspage"),
@@ -668,7 +779,7 @@ def main():
     write("404.html", render("Page not found", "", '<section class="wrap hub"><h1>Off-side.</h1>'
           '<p>That page does not exist. Try the <a href="/">home page</a> or the <a href="/rinks/">rink list</a>.</p></section>', "/404"))
 
-    urls = ["/", "/highlights/", "/standings/", "/stats/", "/news/"] + [f'/{s["path"]}/' for s in SECTIONS.values()] + [a["url"] for a in arts] + \
+    urls = ["/", "/highlights/", "/standings/", "/stats/", "/news/"] + (["/local/"] if LOCAL else []) + [f"/local/{ab.lower()}/" for ab in LOCAL] + [f'/{s["path"]}/' for s in SECTIONS.values()] + [a["url"] for a in arts] + \
            [f"/{p.stem}/" for p in (ROOT / "content" / "pages").glob("*.html")]
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           + "".join(f"  <url><loc>{SITE['url']}{u}</loc></url>\n" for u in urls) + "</urlset>\n")

@@ -61,6 +61,7 @@
   /* ---------- theme ---------- */
   function paint() {
     var r = document.documentElement, c = THEMES[team];
+    if (r.dataset.pageTeam) return;  /* a team's local page keeps that team's colors */
     if (c && chosen) { r.dataset.team = team; for (var k in c) r.style.setProperty("--" + k, c[k]); }
     else if (THEMES[DEFAULT]) { delete r.dataset.team; for (var k2 in THEMES[DEFAULT]) r.style.removeProperty("--" + k2); }
     var m = document.querySelector('meta[name="theme-color"]');
@@ -319,6 +320,9 @@
     paint();
     document.querySelectorAll("[data-myteam-label]").forEach(function (e) { e.textContent = team; });
     document.querySelectorAll("[data-myteam-name]").forEach(function (e) { e.textContent = name(team); });
+    var AREAS = window.HNUSA_AREAS || {};
+    document.querySelectorAll("[data-local-link]").forEach(function (a) { a.href = "/local/" + team.toLowerCase() + "/" + (a.getAttribute("data-hash") || ""); });
+    document.querySelectorAll("[data-local-area]").forEach(function (e) { e.textContent = AREAS[team] || "you"; });
     if (dlg) dlg.querySelectorAll("button[data-team]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-team") === team); });
     if (L) { renderHero(); renderZone(); renderSide(); renderPages(); }
     filterHighlights();

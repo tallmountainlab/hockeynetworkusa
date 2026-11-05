@@ -2,7 +2,7 @@ name: Weekly local rinks update
 
 on:
   schedule:
-    - cron: "30 9 * * 1"   # Mondays
+    - cron: "30 9 * * *"   # daily; each run fills empty cities first, then refreshes the oldest
   workflow_dispatch: {}
 
 permissions:
