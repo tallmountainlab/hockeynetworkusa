@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04T23:32:25Z",
+ "updated": "2026-11-05T08:16:47Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
@@ -11,7 +11,7 @@
   "otl": 0,
   "pts": 20,
   "div_rank": 2,
-  "league_rank": 9,
+  "league_rank": 10,
   "streak": "W1",
   "l10": "6-4-0"
  },
@@ -40,7 +40,7 @@
    "otl": 0,
    "pts": 20,
    "div_rank": 2,
-   "league_rank": 9,
+   "league_rank": 10,
    "streak": "W1",
    "l10": "6-4-0"
   },
@@ -54,7 +54,7 @@
    "otl": 1,
    "pts": 19,
    "div_rank": 3,
-   "league_rank": 10,
+   "league_rank": 12,
    "streak": "W2",
    "l10": "7-3-0"
   },
@@ -68,7 +68,7 @@
    "otl": 1,
    "pts": 19,
    "div_rank": 4,
-   "league_rank": 11,
+   "league_rank": 14,
    "streak": "L1",
    "l10": "5-4-1"
   },
@@ -118,14 +118,14 @@
    "abbrev": "CHI",
    "team": "Chicago Blackhawks",
    "division": "Central",
-   "gp": 15,
+   "gp": 16,
    "w": 4,
-   "l": 10,
+   "l": 11,
    "otl": 1,
    "pts": 9,
    "div_rank": 8,
    "league_rank": 31,
-   "streak": "L1",
+   "streak": "L2",
    "l10": "3-6-1"
   }
  ],
