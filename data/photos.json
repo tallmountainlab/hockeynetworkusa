@@ -498,5 +498,125 @@
   "author": "Keith Allison from Hanover, MD, USA",
   "license": "CC BY-SA 2.0",
   "license_url": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "team-ANA": {
+  "from": "team-ANA/4",
+  "alt": "Anaheim Ducks players in orange jerseys on the ice",
+  "caption": "The Anaheim Ducks on the ice.",
+  "title": "File:Zegras, Benoit, and Shattenkirk.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Zegras,_Benoit,_and_Shattenkirk.jpg",
+  "author": "Sewageboy",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "team-BUF": {
+  "from": "team-BUF/4",
+  "alt": "Face-off at center ice at KeyBank Center in Buffalo",
+  "caption": "A face-off at center ice in Buffalo's KeyBank Center.",
+  "title": "File:Chicago Blackhawks vs. Buffalo Sabres December 2024 20 (face-off).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Chicago_Blackhawks_vs._Buffalo_Sabres_December_2024_20_(face-off).jpg",
+  "author": "Michael Barera",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "team-CBJ": {
+  "from": "team-CBJ/3",
+  "alt": "Sold-out crowd around the rink at Nationwide Arena in Columbus",
+  "caption": "A sold-out night at Nationwide Arena, home of the Blue Jackets.",
+  "title": "File:NationwideArena.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:NationwideArena.jpg",
+  "author": "Uccee44",
+  "license": "Public domain",
+  "license_url": ""
+ },
+ "team-CHI": {
+  "from": "team-CHI/1",
+  "alt": "Championship banners hanging above the ice at the United Center",
+  "caption": "Banners in the rafters of the United Center, Chicago.",
+  "title": "File:Chicago Bulls and Chicago Blackhawks Championship Banners, United Center.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Chicago_Bulls_and_Chicago_Blackhawks_Championship_Banners,_United_Center.jpg",
+  "author": "Marit & Toomas Hinnosaar",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0"
+ },
+ "team-FLA": {
+  "from": "team-FLA/3",
+  "alt": "Lit-up rink and packed crowd at Amerant Bank Arena before a playoff game",
+  "caption": "Amerant Bank Arena in Sunrise before a Panthers playoff game.",
+  "title": "File:Amerant Bank Arena before a first-round playoff game against the Tampa Bay Lightning during the 2023-24 season.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Amerant_Bank_Arena_before_a_first-round_playoff_game_against_the_Tampa_Bay_Lightning_during_the_2023-24_season.jpg",
+  "author": "Gatorfan252525",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "team-MIN": {
+  "from": "team-MIN/2",
+  "alt": "Packed arena around the rink at Xcel Energy Center in St. Paul",
+  "caption": "Xcel Energy Center in St. Paul, home of the Wild, packed for the NCAA Frozen Four.",
+  "title": "File:Xcel Energy Center Hockey Arena - NCAA Frozen Four Hockey Game (53034995111).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Xcel_Energy_Center_Hockey_Arena_-_NCAA_Frozen_Four_Hockey_Game_(53034995111).jpg",
+  "author": "Tony Webster",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0"
+ },
+ "team-MTL": {
+  "from": "team-MTL/1",
+  "alt": "Bell Centre crowd and glowing ice in Montreal",
+  "caption": "Game night at the Bell Centre in Montreal.",
+  "title": "File:Bell Centre Montreal April 2016.JPG",
+  "page": "https://commons.wikimedia.org/wiki/File:Bell_Centre_Montreal_April_2016.JPG",
+  "author": "Danclahane",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "vintage-st-nicholas": {
+  "from": "more-vintage/1",
+  "alt": "Team photo of the St. Nicholas Hockey Club of New York in striped sweaters",
+  "caption": "The St. Nicholas Hockey Club of New York, early 1900s, when the game was brand new in the States.",
+  "title": "File:St Nicholas Hockey Club, New York.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:St_Nicholas_Hockey_Club,_New_York.jpg",
+  "author": "Pach Brothers, New York",
+  "license": "Public domain",
+  "license_url": ""
+ },
+ "vintage-grand-mere": {
+  "from": "more-vintage/3",
+  "alt": "Grand-Mère Hockey Club players in suits posing with their trophy, 1910–11",
+  "caption": "The Grand-Mère Hockey Club of Quebec with their trophy, 1910–11.",
+  "title": "File:Grand-Mere Hockey Club 1910–11.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Grand-Mere_Hockey_Club_1910%E2%80%9311.jpg",
+  "author": "Wm. Notman & Son",
+  "license": "Public domain",
+  "license_url": ""
+ },
+ "vintage-appleby-1913": {
+  "from": "more-vintage/2",
+  "alt": "School hockey team in white sweaters posing on an outdoor rink in 1913",
+  "caption": "Appleby College's first hockey team, 1913.",
+  "title": "File:1913 First Hockey team.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:1913_First_Hockey_team.jpg",
+  "author": "Appleby College",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "outdoor-rink": {
+  "from": "more-rinks/2",
+  "alt": "Skaters on an outdoor rink by the lake in winter sunshine",
+  "caption": "An outdoor rink on a sunny winter afternoon in Kelowna, B.C.",
+  "title": "File:Outdoor skate rink Kelowna 002.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Outdoor_skate_rink_Kelowna_002.jpg",
+  "author": "Russ Dionne (Accuruss)",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "resurfacer": {
+  "from": "more-rinks/6",
+  "alt": "Ice resurfacer smoothing the ice between periods",
+  "caption": "Fresh ice between periods.",
+  "title": "File:Olympia Ice resurfacer.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Olympia_Ice_resurfacer.jpg",
+  "author": "ArildV",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0"
  }
 }

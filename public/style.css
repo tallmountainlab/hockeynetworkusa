@@ -358,3 +358,18 @@ html[data-team]:not([data-team="UTA"]) nav a.utah-only{display:none}
 .pick-city{display:flex;gap:10px;align-items:center;background:var(--surface);border-radius:12px;padding:12px;text-decoration:none;color:var(--ink);box-shadow:0 2px 0 var(--line)}
 .pick-city>span{display:flex;flex-direction:column}
 .prose ul{padding-left:1.2em}.prose li{margin:.35em 0}
+
+/* ---------- Article extras (2026-11-06) ---------- */
+.toc{border-left:5px solid var(--tc1);background:rgba(127,127,127,.08);padding:12px 18px;margin:20px 0;border-radius:0 8px 8px 0}
+.toc-h{font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;margin:0 0 6px}
+.toc ol{margin:0;padding-left:1.3em}
+.toc li{margin:2px 0}
+.prose h2[id]{scroll-margin-top:70px}
+.art-gallery{margin:36px 0 10px}
+.art-gallery .gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.art-gallery figure{margin:0}
+.art-gallery img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;border-bottom:4px solid var(--tc1)}
+.art-gallery figcaption{font-size:.82rem;opacity:.8;padding-top:5px;line-height:1.4}
+.share{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;font-size:.9rem;margin:22px 0}
+.share a{display:inline-block;padding:4px 12px;border-radius:999px;background:var(--tc1);color:var(--tc1i,#fff);text-decoration:none;font-weight:700;font-size:.85rem}
+.share a:hover{filter:brightness(1.15)}

@@ -415,6 +415,78 @@ def shortcodes(body):
     return body
 
 
+# ---------- article extras (2026-11-06) ----------
+GALLERIES = json.loads((ROOT / "data" / "galleries.json").read_text(encoding="utf-8")) if (ROOT / "data" / "galleries.json").exists() else {}
+
+
+def article_photos(a):
+    """Extra photos for an article: data/galleries.json, or rotating action shots for weekly reports."""
+    keys = GALLERIES.get(a["slug"])
+    if keys is None and a.get("category") == "Weekly report":
+        acts = sorted(k for k in PHOTOS if k.startswith("action-") and has_photo(k))
+        start = sum(map(ord, a["slug"])) % len(acts) if acts else 0
+        keys = (acts[start:] + acts[:start])[:2]
+    return [k for k in (keys or []) if has_photo(k) and k != a.get("image") and f"/img/{k}.jpg" not in a["body"]]
+
+
+def toc_and_ids(body):
+    toc, used = [], set()
+
+    def fix(m):
+        attrs, inner = m.group(1), m.group(2)
+        if "id=" in attrs:
+            return m.group(0)
+        hid = re.sub(r"[^a-z0-9]+", "-", re.sub(r"<[^>]+>", "", html.unescape(inner)).lower()).strip("-") or "section"
+        while hid in used:
+            hid += "-2"
+        used.add(hid)
+        toc.append((hid, re.sub(r"<[^>]+>", "", inner)))
+        return f'<h2{attrs} id="{hid}">{inner}</h2>'
+
+    body = re.sub(r"<h2([^>]*)>(.*?)</h2>", fix, body, flags=re.S)
+    box = ("" if len(toc) < 3 else '<aside class="toc" aria-label="In this story"><p class="toc-h">In this story</p><ol>'
+           + "".join(f'<li><a href="#{i}">{esc(t)}</a></li>' for i, t in toc) + "</ol></aside>")
+    return body, box
+
+
+def spread_photos(body, keys):
+    """Put a photo before every 2nd h2 (if none is right there); return leftovers."""
+    keys = list(keys)
+    parts = re.split(r"(?=<h2[ >])", body)
+    out, n = [parts[0]], 0
+    for part in parts[1:]:
+        n += 1
+        if keys and n % 2 == 0 and "<figure" not in out[-1][-600:]:
+            out.append(figure(keys.pop(0)))
+        out.append(part)
+    return "".join(out), keys
+
+
+def photo_strip(keys):
+    if not keys:
+        return ""
+    return ('<section class="art-gallery"><h2>More pictures</h2><div class="gal-grid">' + "".join(
+        f'<figure><a href="/img/{k}.jpg" target="_blank" rel="noopener"><img src="/img/{k}-sm.jpg" alt="{esc(PHOTOS[k].get("alt", ""))}" loading="lazy"></a>'
+        f'<figcaption>{esc(PHOTOS[k].get("caption", ""))}</figcaption></figure>' for k in keys)
+        + '</div><p class="meta"><a href="/photo-credits/">Photo credits</a></p></section>')
+
+
+def read_min(body):
+    return max(1, round(len(re.sub(r"<[^>]+>", " ", body).split()) / 220))
+
+
+def share_row(title, path):
+    from urllib.parse import quote
+    u, t = quote(SITE["url"] + path, safe=""), quote(title, safe="")
+    links = (("Facebook", f"https://www.facebook.com/sharer/sharer.php?u={u}"),
+             ("X", f"https://x.com/intent/post?url={u}&text={t}"),
+             ("Reddit", f"https://www.reddit.com/submit?url={u}&title={t}"),
+             ("Text a friend", f"sms:?&body={t}%20{u}"),
+             ("Email", f"mailto:?subject={t}&body={u}"))
+    return ('<p class="share"><span>Share with your hockey friends:</span> '
+            + " ".join(f'<a href="{h}" target="_blank" rel="noopener">{n}</a>' for n, h in links) + "</p>")
+
+
 # ---------- page shell ----------
 def render(title, description, content, path, extra_head="", active="", page_team=""):
     head = theme_script(page_team) + extra_head
@@ -647,13 +719,15 @@ def main():
         ld = {"@context": "https://schema.org", "@type": "Article", "headline": a["title"],
               "description": a.get("description", ""), "datePublished": a.get("date"),
               "dateModified": a["updated"], "publisher": {"@type": "Organization", "name": SITE["name"]}}
+        body, toc = toc_and_ids(shortcodes(a["body"]))
+        body, extra = spread_photos(body, article_photos(a))
         content = (
             '<article class="post">'
             f'<p class="kicker"><a href="/{sec["path"]}/">{esc(sec["title"])}</a> · {esc(a.get("category", "Guide"))}</p>'
             f'<h1>{esc(a["title"])}</h1><p class="lede">{esc(a.get("description", ""))}</p>'
-            f'<p class="meta">Updated {fmt_date(a["updated"])} · <a href="/disclosure/">How we make money</a></p>'
-            f'{figure(a.get("image", ""), "photo lead-photo", eager=True)}'
-            f'{ad_slot()}<div class="prose">{shortcodes(a["body"])}</div>'
+            f'<p class="meta">Updated {fmt_date(a["updated"])} · {read_min(a["body"])} min read · <a href="/disclosure/">How we make money</a></p>'
+            f'{figure(a.get("image", ""), "photo lead-photo", eager=True)}{toc}'
+            f'{ad_slot()}<div class="prose">{body}</div>{photo_strip(extra)}{share_row(a["title"], a["url"])}'
             f'{sponsor_strip() if "{{sponsor}}" not in a["body"] else ""}'
             '<p class="note">Hockey Network USA is an independent fan site. We are not affiliated with the NHL, '
             "the Utah Mammoth, USA Hockey or any rink. Schedules and prices change, so check the official source.</p>"
