@@ -1,209 +1,221 @@
 {
- "home": [
-  "Utah Hockey Club Delta Center",
-  "Utah Mammoth ice hockey",
-  "ice hockey game arena crowd"
- ],
- "delta-center": [
-  "Delta Center Salt Lake City",
-  "Vivint Arena Salt Lake City exterior"
- ],
- "winter-classic": [
-  "Rice-Eccles Stadium",
-  "NHL Winter Classic outdoor hockey"
- ],
- "olympic-oval": [
-  "Utah Olympic Oval Kearns",
-  "Utah Olympic Oval interior"
- ],
- "peaks": [
-  "Peaks Ice Arena Provo",
-  "2002 Winter Olympics ice hockey"
- ],
- "maverik": [
-  "Maverik Center West Valley City",
-  "Utah Grizzlies hockey"
- ],
- "history": [
-  "Salt Palace arena Salt Lake City",
-  "Salt Lake Golden Eagles hockey",
-  "2002 Winter Olympics Salt Lake City"
- ],
- "youth": [
-  "youth ice hockey game",
-  "children ice hockey practice",
-  "minor hockey"
- ],
- "adult": [
-  "recreational ice hockey adults",
-  "pond hockey",
-  "pickup ice hockey"
- ],
- "skate": [
-  "ice skating lessons children",
-  "public ice skating rink",
-  "outdoor ice skating rink winter night"
- ],
- "gear": [
-  "ice hockey equipment",
-  "hockey skates",
-  "hockey sticks pucks"
- ],
- "rinks": [
-  "ice resurfacer Zamboni",
-  "indoor ice rink empty",
-  "Gallivan Center ice rink Salt Lake City"
- ],
- "action-faceoff": [
-  "ice hockey faceoff NHL",
-  "ice hockey face-off"
- ],
- "action-goal": [
-  "ice hockey goal celebration",
-  "NHL goal celebration"
- ],
- "action-goalie": [
-  "ice hockey goaltender save",
-  "NHL goalie save"
- ],
- "action-play": [
-  "NHL game action",
-  "ice hockey players skating puck"
- ],
- "action-crowd": [
-  "NHL arena crowd fans",
-  "hockey fans arena"
- ],
- "action-outdoor": [
-  "NHL outdoor game stadium",
-  "Stadium Series hockey"
- ],
- "team-ANA": [
-  "Anaheim Ducks game",
-  "Anaheim Ducks"
- ],
- "team-BOS": [
-  "Boston Bruins game",
-  "Boston Bruins"
- ],
- "team-BUF": [
-  "Buffalo Sabres game",
-  "Buffalo Sabres"
- ],
- "team-CAR": [
-  "Carolina Hurricanes game",
-  "Carolina Hurricanes"
- ],
- "team-CBJ": [
-  "Columbus Blue Jackets game",
-  "Columbus Blue Jackets"
- ],
- "team-CGY": [
-  "Calgary Flames game",
-  "Calgary Flames"
- ],
- "team-CHI": [
-  "Chicago Blackhawks game",
-  "Chicago Blackhawks"
- ],
- "team-COL": [
-  "Colorado Avalanche game",
-  "Colorado Avalanche"
- ],
- "team-DAL": [
-  "Dallas Stars game",
-  "Dallas Stars"
- ],
- "team-DET": [
-  "Detroit Red Wings game",
-  "Detroit Red Wings"
- ],
- "team-EDM": [
-  "Edmonton Oilers game",
-  "Edmonton Oilers"
- ],
- "team-FLA": [
-  "Florida Panthers game",
-  "Florida Panthers"
- ],
- "team-LAK": [
-  "Los Angeles Kings game",
-  "Los Angeles Kings"
- ],
- "team-MIN": [
-  "Minnesota Wild game",
-  "Minnesota Wild"
- ],
- "team-MTL": [
-  "Montreal Canadiens game",
-  "Canadiens de Montréal"
- ],
- "team-NJD": [
-  "New Jersey Devils game",
-  "New Jersey Devils"
- ],
- "team-NSH": [
-  "Nashville Predators game",
-  "Nashville Predators"
- ],
- "team-NYI": [
-  "New York Islanders game",
-  "New York Islanders"
- ],
- "team-NYR": [
-  "New York Rangers game",
-  "New York Rangers"
- ],
- "team-OTT": [
-  "Ottawa Senators game",
-  "Ottawa Senators"
- ],
- "team-PHI": [
-  "Philadelphia Flyers game",
-  "Philadelphia Flyers"
- ],
- "team-PIT": [
-  "Pittsburgh Penguins game",
-  "Pittsburgh Penguins"
- ],
- "team-SEA": [
-  "Seattle Kraken game",
-  "Seattle Kraken"
- ],
- "team-SJS": [
-  "San Jose Sharks game",
-  "San Jose Sharks"
- ],
- "team-STL": [
-  "St. Louis Blues game",
-  "St. Louis Blues"
- ],
- "team-TBL": [
-  "Tampa Bay Lightning game",
-  "Tampa Bay Lightning"
- ],
- "team-TOR": [
-  "Toronto Maple Leafs game",
-  "Toronto Maple Leafs"
- ],
- "team-UTA": [
-  "Utah Mammoth",
-  "Utah Hockey Club game"
- ],
- "team-VAN": [
-  "Vancouver Canucks game",
-  "Vancouver Canucks"
- ],
- "team-VGK": [
-  "Vegas Golden Knights game",
-  "Vegas Golden Knights"
- ],
- "team-WPG": [
-  "Winnipeg Jets game",
-  "Winnipeg Jets"
- ],
- "team-WSH": [
-  "Washington Capitals game",
-  "Washington Capitals"
- ]
+  "home": [
+    "Utah Hockey Club Delta Center",
+    "Utah Mammoth ice hockey",
+    "ice hockey game arena crowd"
+  ],
+  "delta-center": [
+    "Delta Center Salt Lake City",
+    "Vivint Arena Salt Lake City exterior"
+  ],
+  "winter-classic": [
+    "Rice-Eccles Stadium",
+    "NHL Winter Classic outdoor hockey"
+  ],
+  "olympic-oval": [
+    "Utah Olympic Oval Kearns",
+    "Utah Olympic Oval interior"
+  ],
+  "peaks": [
+    "Peaks Ice Arena Provo",
+    "2002 Winter Olympics ice hockey"
+  ],
+  "maverik": [
+    "Maverik Center West Valley City",
+    "Utah Grizzlies hockey"
+  ],
+  "history": [
+    "Salt Palace arena Salt Lake City",
+    "Salt Lake Golden Eagles hockey",
+    "2002 Winter Olympics Salt Lake City"
+  ],
+  "youth": [
+    "youth ice hockey game",
+    "children ice hockey practice",
+    "minor hockey"
+  ],
+  "adult": [
+    "recreational ice hockey adults",
+    "pond hockey",
+    "pickup ice hockey"
+  ],
+  "skate": [
+    "ice skating lessons children",
+    "public ice skating rink",
+    "outdoor ice skating rink winter night"
+  ],
+  "gear": [
+    "ice hockey equipment",
+    "hockey skates",
+    "hockey sticks pucks"
+  ],
+  "rinks": [
+    "ice resurfacer Zamboni",
+    "indoor ice rink empty",
+    "Gallivan Center ice rink Salt Lake City"
+  ],
+  "action-faceoff": [
+    "ice hockey faceoff NHL",
+    "ice hockey face-off"
+  ],
+  "action-goal": [
+    "ice hockey goal celebration",
+    "NHL goal celebration"
+  ],
+  "action-goalie": [
+    "ice hockey goaltender save",
+    "NHL goalie save"
+  ],
+  "action-play": [
+    "NHL game action",
+    "ice hockey players skating puck"
+  ],
+  "action-crowd": [
+    "NHL arena crowd fans",
+    "hockey fans arena"
+  ],
+  "action-outdoor": [
+    "NHL outdoor game stadium",
+    "Stadium Series hockey"
+  ],
+  "team-ANA": [
+    "Honda Center Anaheim hockey",
+    "Anaheim Ducks hockey game"
+  ],
+  "team-BOS": [
+    "Boston Bruins game",
+    "Boston Bruins"
+  ],
+  "team-BUF": [
+    "KeyBank Center Buffalo hockey",
+    "Buffalo Sabres hockey game"
+  ],
+  "team-CAR": [
+    "Carolina Hurricanes game",
+    "Carolina Hurricanes"
+  ],
+  "team-CBJ": [
+    "Nationwide Arena Columbus hockey",
+    "Columbus Blue Jackets hockey"
+  ],
+  "team-CGY": [
+    "Calgary Flames game",
+    "Calgary Flames"
+  ],
+  "team-CHI": [
+    "United Center Chicago hockey",
+    "Chicago Blackhawks hockey game"
+  ],
+  "team-COL": [
+    "Colorado Avalanche game",
+    "Colorado Avalanche"
+  ],
+  "team-DAL": [
+    "Dallas Stars game",
+    "Dallas Stars"
+  ],
+  "team-DET": [
+    "Detroit Red Wings game",
+    "Detroit Red Wings"
+  ],
+  "team-EDM": [
+    "Edmonton Oilers game",
+    "Edmonton Oilers"
+  ],
+  "team-FLA": [
+    "Florida Panthers hockey game arena",
+    "Amerant Bank Arena"
+  ],
+  "team-LAK": [
+    "Los Angeles Kings game",
+    "Los Angeles Kings"
+  ],
+  "team-MIN": [
+    "Xcel Energy Center hockey",
+    "Minnesota Wild hockey game"
+  ],
+  "team-MTL": [
+    "Bell Centre Montreal hockey",
+    "Montreal Canadiens hockey game"
+  ],
+  "team-NJD": [
+    "New Jersey Devils game",
+    "New Jersey Devils"
+  ],
+  "team-NSH": [
+    "Nashville Predators game",
+    "Nashville Predators"
+  ],
+  "team-NYI": [
+    "New York Islanders game",
+    "New York Islanders"
+  ],
+  "team-NYR": [
+    "New York Rangers game",
+    "New York Rangers"
+  ],
+  "team-OTT": [
+    "Ottawa Senators game",
+    "Ottawa Senators"
+  ],
+  "team-PHI": [
+    "Philadelphia Flyers game",
+    "Philadelphia Flyers"
+  ],
+  "team-PIT": [
+    "Pittsburgh Penguins game",
+    "Pittsburgh Penguins"
+  ],
+  "team-SEA": [
+    "Seattle Kraken game",
+    "Seattle Kraken"
+  ],
+  "team-SJS": [
+    "San Jose Sharks game",
+    "San Jose Sharks"
+  ],
+  "team-STL": [
+    "St. Louis Blues game",
+    "St. Louis Blues"
+  ],
+  "team-TBL": [
+    "Tampa Bay Lightning game",
+    "Tampa Bay Lightning"
+  ],
+  "team-TOR": [
+    "Toronto Maple Leafs game",
+    "Toronto Maple Leafs"
+  ],
+  "team-UTA": [
+    "Utah Mammoth",
+    "Utah Hockey Club game"
+  ],
+  "team-VAN": [
+    "Vancouver Canucks game",
+    "Vancouver Canucks"
+  ],
+  "team-VGK": [
+    "Vegas Golden Knights game",
+    "Vegas Golden Knights"
+  ],
+  "team-WPG": [
+    "Winnipeg Jets game",
+    "Winnipeg Jets"
+  ],
+  "team-WSH": [
+    "Washington Capitals game",
+    "Washington Capitals"
+  ],
+  "more-vintage": [
+    "ice hockey 1900s",
+    "ice hockey team 1910s",
+    "ice hockey game 1930s",
+    "outdoor skating 1900s"
+  ],
+  "more-rinks": [
+    "ice skating rink outdoor winter",
+    "hockey skates",
+    "ice resurfacer",
+    "indoor ice rink hockey practice"
+  ]
 }
