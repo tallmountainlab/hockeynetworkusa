@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-06T13:57:48Z",
+ "updated": "2026-11-06T20:38:56Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
@@ -503,7 +503,7 @@
   {
    "id": 2026020346,
    "date": "2026-11-18",
-   "start_local": "2026-11-18T19:00:00-07:00",
+   "start_local": "2026-11-18T20:00:00-07:00",
    "type": "Regular season",
    "home": true,
    "opponent": "Colorado Avalanche",
