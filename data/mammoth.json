@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-06T20:38:56Z",
+ "updated": "2026-11-07T07:52:52Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
@@ -20,14 +20,14 @@
    "abbrev": "MIN",
    "team": "Minnesota Wild",
    "division": "Central",
-   "gp": 17,
-   "w": 11,
+   "gp": 18,
+   "w": 12,
    "l": 3,
    "otl": 3,
-   "pts": 25,
+   "pts": 27,
    "div_rank": 1,
    "league_rank": 2,
-   "streak": "W2",
+   "streak": "W3",
    "l10": "7-1-2"
   },
   {
@@ -82,7 +82,7 @@
    "otl": 5,
    "pts": 19,
    "div_rank": 5,
-   "league_rank": 15,
+   "league_rank": 16,
    "streak": "W3",
    "l10": "5-2-3"
   },
