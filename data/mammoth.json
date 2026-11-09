@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-08T20:27:27Z",
+ "updated": "2026-11-09T08:20:02Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
@@ -11,7 +11,7 @@
   "otl": 1,
   "pts": 21,
   "div_rank": 5,
-  "league_rank": 14,
+  "league_rank": 15,
   "streak": "L1",
   "l10": "4-5-1"
  },
@@ -82,9 +82,23 @@
    "otl": 1,
    "pts": 21,
    "div_rank": 5,
-   "league_rank": 14,
+   "league_rank": 15,
    "streak": "L1",
    "l10": "4-5-1"
+  },
+  {
+   "abbrev": "WPG",
+   "team": "Winnipeg Jets",
+   "division": "Central",
+   "gp": 18,
+   "w": 7,
+   "l": 8,
+   "otl": 3,
+   "pts": 17,
+   "div_rank": 6,
+   "league_rank": 23,
+   "streak": "W3",
+   "l10": "3-6-1"
   },
   {
    "abbrev": "STL",
@@ -95,24 +109,10 @@
    "l": 8,
    "otl": 2,
    "pts": 16,
-   "div_rank": 6,
-   "league_rank": 23,
-   "streak": "L1",
-   "l10": "4-5-1"
-  },
-  {
-   "abbrev": "WPG",
-   "team": "Winnipeg Jets",
-   "division": "Central",
-   "gp": 17,
-   "w": 6,
-   "l": 8,
-   "otl": 3,
-   "pts": 15,
    "div_rank": 7,
    "league_rank": 25,
-   "streak": "W2",
-   "l10": "2-7-1"
+   "streak": "L1",
+   "l10": "4-5-1"
   },
   {
    "abbrev": "CHI",
