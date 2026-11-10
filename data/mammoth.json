@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09T20:43:58Z",
+ "updated": "2026-11-10T08:07:45Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
@@ -11,7 +11,7 @@
   "otl": 1,
   "pts": 21,
   "div_rank": 5,
-  "league_rank": 15,
+  "league_rank": 14,
   "streak": "L1",
   "l10": "4-5-1"
  },
@@ -26,7 +26,7 @@
    "otl": 4,
    "pts": 28,
    "div_rank": 1,
-   "league_rank": 2,
+   "league_rank": 3,
    "streak": "OT1",
    "l10": "6-1-3"
   },
@@ -82,7 +82,7 @@
    "otl": 1,
    "pts": 21,
    "div_rank": 5,
-   "league_rank": 15,
+   "league_rank": 14,
    "streak": "L1",
    "l10": "4-5-1"
   },
@@ -110,7 +110,7 @@
    "otl": 2,
    "pts": 16,
    "div_rank": 7,
-   "league_rank": 25,
+   "league_rank": 26,
    "streak": "L1",
    "l10": "4-5-1"
   },
