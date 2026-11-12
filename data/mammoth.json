@@ -1,18 +1,18 @@
 {
- "updated": "2026-11-11T21:24:50Z",
+ "updated": "2026-11-12T08:15:44Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
   "team": "Utah Mammoth",
   "division": "Central",
-  "gp": 18,
+  "gp": 19,
   "w": 10,
-  "l": 7,
+  "l": 8,
   "otl": 1,
   "pts": 21,
   "div_rank": 5,
-  "league_rank": 15,
-  "streak": "L1",
+  "league_rank": 16,
+  "streak": "L2",
   "l10": "4-5-1"
  },
  "division": [
@@ -26,8 +26,22 @@
    "otl": 4,
    "pts": 30,
    "div_rank": 1,
-   "league_rank": 2,
+   "league_rank": 3,
    "streak": "W1",
+   "l10": "7-1-2"
+  },
+  {
+   "abbrev": "NSH",
+   "team": "Nashville Predators",
+   "division": "Central",
+   "gp": 19,
+   "w": 10,
+   "l": 4,
+   "otl": 5,
+   "pts": 25,
+   "div_rank": 2,
+   "league_rank": 9,
+   "streak": "W6",
    "l10": "7-1-2"
   },
   {
@@ -39,24 +53,10 @@
    "l": 6,
    "otl": 2,
    "pts": 24,
-   "div_rank": 2,
-   "league_rank": 9,
+   "div_rank": 3,
+   "league_rank": 10,
    "streak": "W2",
    "l10": "6-3-1"
-  },
-  {
-   "abbrev": "NSH",
-   "team": "Nashville Predators",
-   "division": "Central",
-   "gp": 18,
-   "w": 9,
-   "l": 4,
-   "otl": 5,
-   "pts": 23,
-   "div_rank": 3,
-   "league_rank": 11,
-   "streak": "W5",
-   "l10": "6-2-2"
   },
   {
    "abbrev": "DAL",
@@ -68,7 +68,7 @@
    "otl": 2,
    "pts": 22,
    "div_rank": 4,
-   "league_rank": 12,
+   "league_rank": 13,
    "streak": "W1",
    "l10": "7-2-1"
   },
@@ -76,14 +76,14 @@
    "abbrev": "UTA",
    "team": "Utah Mammoth",
    "division": "Central",
-   "gp": 18,
+   "gp": 19,
    "w": 10,
-   "l": 7,
+   "l": 8,
    "otl": 1,
    "pts": 21,
    "div_rank": 5,
-   "league_rank": 15,
-   "streak": "L1",
+   "league_rank": 16,
+   "streak": "L2",
    "l10": "4-5-1"
   },
   {
@@ -469,7 +469,11 @@
    "opponent": "Vegas Golden Knights",
    "opponent_abbrev": "VGK",
    "venue": "T-Mobile Arena",
-   "state": "scheduled"
+   "state": "final",
+   "us": 3,
+   "them": 5,
+   "ending": "REG",
+   "result": "L"
   },
   {
    "id": 2026020307,
