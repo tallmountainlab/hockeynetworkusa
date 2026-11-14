@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13T20:44:49Z",
+ "updated": "2026-11-14T07:54:38Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
@@ -34,15 +34,15 @@
    "abbrev": "NSH",
    "team": "Nashville Predators",
    "division": "Central",
-   "gp": 19,
-   "w": 10,
+   "gp": 20,
+   "w": 11,
    "l": 4,
    "otl": 5,
-   "pts": 25,
+   "pts": 27,
    "div_rank": 2,
-   "league_rank": 10,
-   "streak": "W6",
-   "l10": "7-1-2"
+   "league_rank": 9,
+   "streak": "W7",
+   "l10": "8-1-1"
   },
   {
    "abbrev": "COL",
