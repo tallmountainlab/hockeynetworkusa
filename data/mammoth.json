@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T20:30:31Z",
+ "updated": "2026-11-16T09:33:34Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
@@ -11,7 +11,7 @@
   "otl": 3,
   "pts": 23,
   "div_rank": 5,
-  "league_rank": 15,
+  "league_rank": 16,
   "streak": "OT2",
   "l10": "3-4-3"
  },
@@ -26,23 +26,9 @@
    "otl": 4,
    "pts": 34,
    "div_rank": 1,
-   "league_rank": 2,
+   "league_rank": 3,
    "streak": "W3",
    "l10": "8-0-2"
-  },
-  {
-   "abbrev": "NSH",
-   "team": "Nashville Predators",
-   "division": "Central",
-   "gp": 20,
-   "w": 11,
-   "l": 4,
-   "otl": 5,
-   "pts": 27,
-   "div_rank": 2,
-   "league_rank": 10,
-   "streak": "W7",
-   "l10": "8-1-1"
   },
   {
    "abbrev": "COL",
@@ -53,23 +39,37 @@
    "l": 6,
    "otl": 3,
    "pts": 27,
-   "div_rank": 3,
-   "league_rank": 11,
+   "div_rank": 2,
+   "league_rank": 10,
    "streak": "W1",
    "l10": "6-2-2"
+  },
+  {
+   "abbrev": "NSH",
+   "team": "Nashville Predators",
+   "division": "Central",
+   "gp": 21,
+   "w": 11,
+   "l": 5,
+   "otl": 5,
+   "pts": 27,
+   "div_rank": 3,
+   "league_rank": 11,
+   "streak": "L1",
+   "l10": "7-2-1"
   },
   {
    "abbrev": "DAL",
    "team": "Dallas Stars",
    "division": "Central",
-   "gp": 19,
-   "w": 11,
+   "gp": 20,
+   "w": 12,
    "l": 6,
    "otl": 2,
-   "pts": 24,
+   "pts": 26,
    "div_rank": 4,
-   "league_rank": 14,
-   "streak": "W1",
+   "league_rank": 13,
+   "streak": "W2",
    "l10": "6-3-1"
   },
   {
@@ -82,7 +82,7 @@
    "otl": 3,
    "pts": 23,
    "div_rank": 5,
-   "league_rank": 15,
+   "league_rank": 16,
    "streak": "OT2",
    "l10": "3-4-3"
   },
@@ -96,7 +96,7 @@
    "otl": 3,
    "pts": 23,
    "div_rank": 6,
-   "league_rank": 16,
+   "league_rank": 17,
    "streak": "W6",
    "l10": "6-4-0"
   },
@@ -110,7 +110,7 @@
    "otl": 2,
    "pts": 20,
    "div_rank": 7,
-   "league_rank": 20,
+   "league_rank": 21,
    "streak": "L1",
    "l10": "4-5-1"
   },
