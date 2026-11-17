@@ -1,19 +1,19 @@
 {
- "updated": "2026-11-16T20:41:59Z",
+ "updated": "2026-11-17T08:17:04Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
   "team": "Utah Mammoth",
   "division": "Central",
-  "gp": 21,
+  "gp": 22,
   "w": 10,
-  "l": 8,
+  "l": 9,
   "otl": 3,
   "pts": 23,
-  "div_rank": 5,
-  "league_rank": 16,
-  "streak": "OT2",
-  "l10": "3-4-3"
+  "div_rank": 6,
+  "league_rank": 17,
+  "streak": "L1",
+  "l10": "2-5-3"
  },
  "division": [
   {
@@ -68,23 +68,9 @@
    "otl": 2,
    "pts": 26,
    "div_rank": 4,
-   "league_rank": 13,
+   "league_rank": 14,
    "streak": "W2",
    "l10": "6-3-1"
-  },
-  {
-   "abbrev": "UTA",
-   "team": "Utah Mammoth",
-   "division": "Central",
-   "gp": 21,
-   "w": 10,
-   "l": 8,
-   "otl": 3,
-   "pts": 23,
-   "div_rank": 5,
-   "league_rank": 16,
-   "streak": "OT2",
-   "l10": "3-4-3"
   },
   {
    "abbrev": "WPG",
@@ -95,10 +81,24 @@
    "l": 8,
    "otl": 3,
    "pts": 23,
-   "div_rank": 6,
-   "league_rank": 17,
+   "div_rank": 5,
+   "league_rank": 16,
    "streak": "W6",
    "l10": "6-4-0"
+  },
+  {
+   "abbrev": "UTA",
+   "team": "Utah Mammoth",
+   "division": "Central",
+   "gp": 22,
+   "w": 10,
+   "l": 9,
+   "otl": 3,
+   "pts": 23,
+   "div_rank": 6,
+   "league_rank": 17,
+   "streak": "L1",
+   "l10": "2-5-3"
   },
   {
    "abbrev": "STL",
@@ -514,7 +514,11 @@
    "opponent": "Vancouver Canucks",
    "opponent_abbrev": "VAN",
    "venue": "Delta Center",
-   "state": "scheduled"
+   "state": "final",
+   "us": 2,
+   "them": 3,
+   "ending": "REG",
+   "result": "L"
   },
   {
    "id": 2026020346,
