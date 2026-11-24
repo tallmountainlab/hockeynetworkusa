@@ -1,18 +1,18 @@
 {
- "updated": "2026-11-23T20:43:51Z",
+ "updated": "2026-11-24T08:25:13Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
   "team": "Utah Mammoth",
   "division": "Central",
-  "gp": 24,
+  "gp": 25,
   "w": 12,
-  "l": 9,
+  "l": 10,
   "otl": 3,
   "pts": 27,
-  "div_rank": 6,
-  "league_rank": 17,
-  "streak": "W2",
+  "div_rank": 7,
+  "league_rank": 18,
+  "streak": "L1",
   "l10": "3-4-3"
  },
  "division": [
@@ -20,14 +20,14 @@
    "abbrev": "MIN",
    "team": "Minnesota Wild",
    "division": "Central",
-   "gp": 25,
-   "w": 17,
+   "gp": 26,
+   "w": 18,
    "l": 3,
    "otl": 5,
-   "pts": 39,
+   "pts": 41,
    "div_rank": 1,
-   "league_rank": 2,
-   "streak": "OT1",
+   "league_rank": 1,
+   "streak": "W1",
    "l10": "8-0-2"
   },
   {
@@ -87,32 +87,32 @@
    "l10": "6-3-1"
   },
   {
-   "abbrev": "UTA",
-   "team": "Utah Mammoth",
-   "division": "Central",
-   "gp": 24,
-   "w": 12,
-   "l": 9,
-   "otl": 3,
-   "pts": 27,
-   "div_rank": 6,
-   "league_rank": 17,
-   "streak": "W2",
-   "l10": "3-4-3"
-  },
-  {
    "abbrev": "WPG",
    "team": "Winnipeg Jets",
    "division": "Central",
-   "gp": 24,
-   "w": 11,
+   "gp": 25,
+   "w": 12,
    "l": 9,
    "otl": 4,
-   "pts": 26,
+   "pts": 28,
+   "div_rank": 6,
+   "league_rank": 15,
+   "streak": "W1",
+   "l10": "8-1-1"
+  },
+  {
+   "abbrev": "UTA",
+   "team": "Utah Mammoth",
+   "division": "Central",
+   "gp": 25,
+   "w": 12,
+   "l": 10,
+   "otl": 3,
+   "pts": 27,
    "div_rank": 7,
    "league_rank": 18,
-   "streak": "OT1",
-   "l10": "7-2-1"
+   "streak": "L1",
+   "l10": "3-4-3"
   },
   {
    "abbrev": "CHI",
@@ -124,7 +124,7 @@
    "otl": 2,
    "pts": 18,
    "div_rank": 8,
-   "league_rank": 29,
+   "league_rank": 30,
    "streak": "W2",
    "l10": "4-5-1"
   }
@@ -559,7 +559,11 @@
    "opponent": "Winnipeg Jets",
    "opponent_abbrev": "WPG",
    "venue": "Canada Life Centre",
-   "state": "scheduled"
+   "state": "final",
+   "us": 2,
+   "them": 4,
+   "ending": "REG",
+   "result": "L"
   },
   {
    "id": 2026020396,
