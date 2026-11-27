@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27T14:08:10Z",
+ "updated": "2026-11-27T20:47:55Z",
  "season": "20262027",
  "record": {
   "abbrev": "UTA",
@@ -68,7 +68,7 @@
    "otl": 5,
    "pts": 31,
    "div_rank": 4,
-   "league_rank": 12,
+   "league_rank": 11,
    "streak": "W2",
    "l10": "8-2-0"
   },
@@ -589,7 +589,7 @@
    "opponent": "Nashville Predators",
    "opponent_abbrev": "NSH",
    "venue": "Bridgestone Arena",
-   "state": "scheduled"
+   "state": "live"
   },
   {
    "id": 2026020424,
